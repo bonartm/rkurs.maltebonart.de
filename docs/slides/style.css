@@ -1,0 +1,13 @@
+.reveal code {
+  font-family: monospace;
+  background-color: #f7f7f7;
+}
+
+.reveal ul {
+  display: block;
+}
+
+.reveal section img {
+  border:none; 
+}
+

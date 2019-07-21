@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Introduction to R - Exercises</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Introduction to R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="exercises.html">
+    <span class="fa fa-code"></span>
+     
+    Exercises
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-file"></span>
+     
+    Slides
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./slides/pre_course_notes.pdf">German speaker notes for prep course</a>
+    </li>
+    <li>
+      <a href="./slides/01_introduction.html">Basics</a>
+    </li>
+    <li>
+      <a href="./slides/02_operators_vectors.html">Vectors and Operators</a>
+    </li>
+    <li>
+      <a href="./slides/03_data_frames.html">Data import and data frames</a>
+    </li>
+    <li>
+      <a href="./slides/04_functions.html">Functions and control structures</a>
+    </li>
+    <li>
+      <a href="./slides/05_extraction.html">Extraction and updating</a>
+    </li>
+    <li>
+      <a href="./slides/06_visualization.html">Visualizations</a>
+    </li>
+    <li>
+      <a href="./slides/07_advanced.html">Further topics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Cheat Sheet
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-database"></span>
+     
+    Ressources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="datasets.html">Datasets</a>
+    </li>
+    <li>
+      <a href="scripts.html">Scripts</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://yourpart.eu/p/p1TYQBtmTT">
+    <span class="fa fa-pencil"></span>
+     
+    Etherpad
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R - Exercises</h1>
+
+</div>
+
+
+<hr />
+<div id="basics" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">1</span> Basics</h1>
+<div id="create-a-new-project" class="section level2">
+<h2><span class="header-section-number">1.1</span> Create a new project</h2>
+<ul>
+<li>Create a new project with the name <code>introduction-to-r</code>
+<ul>
+<li>Open RStudio by clicking on the icon or by selecting it via the start menu</li>
+<li>Click on <code>File</code> - <code>New Project...</code> and select <code>New directory</code></li>
+<li>Give the directory the name <code>introduction-to-r</code> and create it as a sub-directory of your <em>Desktop</em> folder</li>
+<li>Where on your hard disk is the project folder located? Try to locate it with the regular windows file explorer.</li>
+</ul></li>
+<li>Create a sub-directory <code>data</code> and <code>source</code> in the project’s root folder.</li>
+<li>Download the <em>titanic</em> and the <em>football</em> dataset from the course website and place it in the <code>data</code> folder.</li>
+<li>In RStudio type <code>getwd()</code> into the console window. This prints out the full path of your projects root folder.
+<ul>
+<li>Type <code>list.files(&quot;./data&quot;)</code> into the console window. What’s the meaning of the dot <code>.</code> in the file path?</li>
+<li>What’s the output of the call <code>list.files(&quot;../&quot;)</code>?</li>
+</ul></li>
+</ul>
+</div>
+<div id="create-a-new-script-file-helloworld.r" class="section level2">
+<h2><span class="header-section-number">1.2</span> Create a new script file (<code>helloWorld.R</code>)</h2>
+<ul>
+<li>Click on <code>File</code> - <code>New File</code> - <code>R Script</code> or use the plus button in the toolbar.</li>
+<li>Write <code>plot(rnorm(100))</code> into the text-editor</li>
+<li>Execute the selected line by pressing [Strg]-[Enter] or by clicking on the <code>Run</code> button in the toolbar.</li>
+<li>What’s the purpose of this command? Call the help page for the function <code>rnorm</code>.</li>
+<li><em>Advanced</em>: Write a small program which calculates the empricial mean and standard deviation for <span class="math inline">\(n=10\)</span> random draws from the standard normal distribution.
+<ul>
+<li>Use the functions <code>mean</code>, <code>sd</code> and <code>rnorm</code></li>
+<li>E.g. type <code>?mean</code> in the console to call the help page for this function</li>
+<li>What happens to the mean and deviation if <span class="math inline">\(n \rightarrow \infty\)</span>? Try this in your program!</li>
+</ul></li>
+<li>Save the file (<code>File</code> - <code>Save</code>) in the <code>source</code> folder of your project. Give it the name <code>helloWorld.R</code>.</li>
+</ul>
+</div>
+<div id="kvb-bikes-in-cologne" class="section level2">
+<h2><span class="header-section-number">1.3</span> KVB bikes in cologne</h2>
+<ol style="list-style-type: decimal">
+<li>Download the script <code>kvb.R</code> from the course website and save it in the project’s <code>source</code> folder.</li>
+<li><p>Install the missing packages <code>XML</code> and <code>leaflet</code> with the function <code>install.packages</code></p>
+<pre class="r"><code>install.packages(c(&quot;XML&quot;, &quot;leaflet&quot;))</code></pre></li>
+<li>In your project in RStudio, open the script file and run the code line by line. Does the script terminate without any errors?</li>
+<li><em>Advanced</em>
+<ul>
+<li>Change the color of the markers from red to green.</li>
+<li>Try to get and visualize data for another city in which <em>nextbike</em> operates (Inside the code, you have to change the link to the nextbike api).</li>
+<li>Add a cluster effect to the map (Use the function parameter <code>clusterOptions = markerClusterOptions()</code> at the right place).</li>
+<li>Change the pop-up text of the markers to display some other useful information such as the number of bikes at this place.</li>
+</ul></li>
+</ol>
+</div>
+<div id="arithmetic" class="section level2">
+<h2><span class="header-section-number">1.4</span> Arithmetic</h2>
+<p>Perform the following calcuations using the R console:</p>
+<ul>
+<li><span class="math inline">\(34^2 + 12^{-0.8}\)</span></li>
+<li><span class="math inline">\(\ln(4 + \sqrt{12})\)</span></li>
+<li><span class="math inline">\(\frac{2+1}{3+\pi}\)</span></li>
+<li><span class="math inline">\(\ln(e^4)\)</span></li>
+</ul>
+<p><em>Advanced</em>: <span class="math inline">\(\sqrt{2}^2 - 2 = 0\)</span>, right?</p>
+<ul>
+<li>In R, why is <code>sqrt(2)^2 - 2</code> not exactly equal to zero?</li>
+<li>Do you find other examples?</li>
+</ul>
+</div>
+<div id="function-calls" class="section level2">
+<h2><span class="header-section-number">1.5</span> Function calls</h2>
+<ul>
+<li>Have a look at the documentation for the function <code>rnorm</code>.
+<ul>
+<li>How many arguments has the function?</li>
+<li>What are the default arguments of the function?</li>
+<li>Which of the following function calls is not valid? Why?</li>
+</ul>
+<pre class="r"><code>  rnorm(n = 10)
+  rnorm(10, 2, 4)
+  rnorm(mean = 2)
+  rnorm(sd = 3, mean = 1, n = 3)</code></pre></li>
+<li>With the help of the above function calls, explain how R matches <em>formal</em> to <em>actual</em> arguments!</li>
+</ul>
+</div>
+</div>
+<div id="vectors-and-operators" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">2</span> Vectors and Operators</h1>
+<div id="basic-data-types" class="section level2">
+<h2><span class="header-section-number">2.1</span> Basic data types</h2>
+<ul>
+<li>What are the three basic data types? Write down a code example for each of them.</li>
+<li>What’s the difference between <code>TRUE</code> and <code>&quot;TRUE&quot;</code>? Whats the difference between <code>pi</code> and <code>&quot;pi&quot;</code>?</li>
+<li>Use the function <code>as.numeric()</code> to cast values to a <em>numeric</em> type:
+<ul>
+<li>What’s the numeric value of <code>TRUE</code> and <code>FALSE</code>?</li>
+<li>Can you cast the character string <code>&quot;hi&quot;</code> to a numeric value? Try the same with the string <code>&quot;5&quot;</code>.</li>
+<li>How can you cast a numeric value to a string? To a logical value?</li>
+</ul></li>
+</ul>
+</div>
+<div id="vectors-and-variable-assignment" class="section level2">
+<h2><span class="header-section-number">2.2</span> Vectors and variable assignment</h2>
+<ul>
+<li>Asign the value <span class="math inline">\(12\)</span> to a variable with the name <code>pi</code>
+<ul>
+<li>Why is this dangerous?</li>
+<li>Remove the variable by calling the <code>rm()</code> function with the appropriate argument.</li>
+</ul></li>
+<li><p>Use the <code>c()</code> function to store the results from the calculations in exercise <em>1.4</em> in a vector . Assign the vector to a variable with the name <code>values</code>.</p></li>
+<li>Try to find the name of the built-in functions and answer the following questions:
+<ul>
+<li>What’s the sum and the product of the elements in the vector?</li>
+<li>What is the smallest/ largest value?</li>
+<li>How can you sort the vecor?</li>
+<li>How can you determine the length of the vector?</li>
+</ul></li>
+<li>Call the <code>ls()</code> function to list all user variables in the global envrionment.
+<ul>
+<li>How many variables are listed? Try to answer this question programmatically.</li>
+<li>What is the data type of the object returned by a call of <code>ls()</code>?</li>
+</ul></li>
+</ul>
+</div>
+<div id="descriptive.r" class="section level2">
+<h2><span class="header-section-number">2.3</span> <code>descriptive.R</code></h2>
+<ul>
+<li>Open a new script file and save it in the <code>source</code> folder under the name <code>descriptive.R</code></li>
+<li>Write a program which calculates the mean, the standard deviation, the range, the maximum and the minimum of an arbitrary numeric vector <code>x</code>
+<ul>
+<li>You program should start with the following lines of code:</li>
+</ul>
+<pre class="r"><code># define some arbitrary numeric vector with varying length e.g.
+x &lt;- c(1, 4, 2, 9)
+# calculate the statistics</code></pre>
+<ul>
+<li>Use only the built-in functions <code>max()</code>, <code>min()</code>, <code>length()</code> and <code>sum()</code></li>
+<li>The range is defined as <span class="math inline">\(x_{max} - x_{min}\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div id="vector-generation" class="section level2">
+<h2><span class="header-section-number">2.4</span> Vector generation</h2>
+<ul>
+<li>Try to generate the following sequences with the help of the functions <code>c()</code>, <code>rep()</code> and <code>seq()</code>:
+<ul>
+<li><span class="math inline">\((1, 2, \dots, 100)\)</span></li>
+<li><span class="math inline">\((-10, -9.5, -9, -8.5, \dots, -4.5, -4)\)</span></li>
+<li><span class="math inline">\((TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)\)</span></li>
+<li><span class="math inline">\((&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;)\)</span></li>
+<li><span class="math inline">\((100, 90, 80, \cdots, 10, 0, -10)\)</span></li>
+</ul></li>
+<li><em>Advanced</em> (Tip: Have a look at the documentation for the function <code>rep()</code>):
+<ul>
+<li><span class="math inline">\((1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, \cdots, 100, 100, 100)\)</span></li>
+<li><span class="math inline">\((1, \dots, 100, 1, \dots, 100, 1, \dots, 100, 1, \dots, 100)\)</span></li>
+<li><span class="math inline">\((1000000, 100000, 10000, 1000, 100, 10, 1)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div id="casting" class="section level2">
+<h2><span class="header-section-number">2.5</span> Casting</h2>
+<p>Have a look at the two vectors:</p>
+<pre class="r"><code>x &lt;- c(&quot;TRUE&quot;, &quot;FALSE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;)
+y &lt;- c(&quot;2&quot;, &quot;4&quot;, &quot;5&quot;)</code></pre>
+<p>Execute the following expressions in R and explain the result.</p>
+<pre class="r"><code>as.numeric(as.logical(x))
+is.numeric(y)
+is.character(x)
+is.logical(as.character(TRUE))</code></pre>
+<p>Try to guess the result of the following expressions without using a computer</p>
+<pre class="r"><code>is.logical(0)
+is.logical(as.logical(0))
+is.numeric(as.logical(x))
+as.character(1243)</code></pre>
+</div>
+<div id="logical-expressions" class="section level2">
+<h2><span class="header-section-number">2.6</span> Logical expressions</h2>
+<p>Have a look at the two values <code>x</code> and <code>y</code> and the vector <code>a</code> and <code>b</code></p>
+<pre class="r"><code>x &lt;- 9^2
+y &lt;- &quot;test&quot;
+a &lt;- c(4, 6, 5, 7, 10, 9)
+b &lt;- c(4, 6, 2, 7, 2, 3)</code></pre>
+<p>Execute the following expressions in R and try to explain the result</p>
+<pre class="r"><code>(4 &lt; 5) &amp; (sqrt(x) == 9)
+y == &quot;Test&quot; | y == &quot;test&quot;
+x &lt; 100 | y != &quot;hallo&quot;
+
+a &gt; 5 &amp; b &lt; 7
+all(a &gt; 4 | b &lt; 6)
+any(a &lt; 2)
+length(a) == length(b)</code></pre>
+<p>Try to guess the result of the following expressions without using a computer</p>
+<pre class="r"><code>a &lt; 4 &amp; b &gt; a
+a == length(b)
+any(sqrt(x) == a)
+all(a &lt; b)
+length(x)</code></pre>
+</div>
+<div id="logical-expressions-and-vectorization" class="section level2">
+<h2><span class="header-section-number">2.7</span> Logical expressions and vectorization</h2>
+<ul>
+<li>Create a vector of logical values and apply the <code>sum()</code> and <code>mean()</code> function to it. What do you observe?</li>
+<li>With the function <code>rnorm()</code>, sample <span class="math inline">\(n = 100\)</span> values from the normal distribution. Count the <em>relative</em> and <em>absolute</em> number of observations which are
+<ul>
+<li>positive</li>
+<li>between <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span></li>
+<li>larger than two times the empirical standard deviation of the sample</li>
+</ul></li>
+<li><em>Advanced</em>: Given the previous three expressions, calculate the <em>analytical</em> probability values with the function <code>pnorm()</code> for some random normal variable with <span class="math inline">\(X \sim N(\mu_x,\sigma_x)\)</span>. E.g. calculate the probabilities:
+<ul>
+<li><span class="math inline">\(P(X &gt; 0)\)</span></li>
+<li><span class="math inline">\(P(-1 \leq X \leq 1)\)</span></li>
+<li><span class="math inline">\(P(X &gt; 2\sigma_x)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div id="missing-values" class="section level2">
+<h2><span class="header-section-number">2.8</span> Missing values</h2>
+<ul>
+<li>What is the keyword for a missing value? Create a vector with numeric values and some missing values.</li>
+<li>Use the function <code>is.na()</code> on your vector to test for missing values. What is the return type of the function <code>is.na()</code>?</li>
+<li>Use the <code>sum()</code> function together with <code>is.na()</code> to count the number of missing values in the vector.</li>
+<li>Have a look at your code in <code>descriptive.R</code>.
+<ul>
+<li>What happens to the code, if the vector <code>x</code> contains missing values?</li>
+<li>Try to rewrite your code such that missing values are handled (E.g. look at the further function arguments of the functions <code>mean()</code>, <code>sum()</code>, …).</li>
+<li>Expand the code by an expression, which counts the number of missing values.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="data-import-and-data-frames" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">3</span> Data import and data frames</h1>
+<div id="csv-data" class="section level2">
+<h2><span class="header-section-number">3.1</span> <code>.csv</code> data</h2>
+<p>Open the titanic dataset with a text editor (e.g. right click on the file - <code>edit with notepad++</code>)</p>
+<ul>
+<li>How many variables/columns has the dataset?</li>
+<li>How many passengers are included in the dataset?</li>
+<li>Does the file contain a header line?</li>
+<li>How are the values separated?</li>
+<li>What’s the encoding of the file?</li>
+</ul>
+</div>
+<div id="the-titanic-dataset" class="section level2">
+<h2><span class="header-section-number">3.2</span> The titanic dataset</h2>
+<ul>
+<li>Open a new script file, save it in <code>source</code> and give it the name <code>titanic.R</code>.</li>
+<li>Use the <code>read.csv()</code> function with the correct file path, to import the titanic dataset into R (Remember to also include the argument <code>stringsAsFactors = FALSE</code>).</li>
+<li>Have a look at each column and determine it’s datatype. You can also use the <code>summary()</code> or the <code>head()</code> function for this.</li>
+<li>Try to answer the following questions <code>programmatically</code>:
+<ul>
+<li>How many passengers and which variables are included in the dataset?</li>
+<li>How many people died on the titanic? How many people survived? Calculate the overal survival rate (E.g. the number of survivors as a fraction of the overall number of passengers).</li>
+<li>How many of the passengers are women?</li>
+<li>How many missing values does the variable <code>age</code> contain?</li>
+<li>What’s the age of the youngest and oldest passenger on the titanic?</li>
+<li>How many passengers are in the first class?</li>
+</ul></li>
+</ul>
+</div>
+<div id="frequency-tables" class="section level2">
+<h2><span class="header-section-number">3.3</span> Frequency tables</h2>
+<p>With the titanic dataset and the function <code>table()</code> answer the following questions:</p>
+<ul>
+<li>How many men are in the third class?</li>
+<li>How many people died in the first class? How many in the third class?</li>
+</ul>
+<p>In addition, use the functions <code>prop.table()</code> to transform the tables into relative frequency tables:</p>
+<ul>
+<li>Calculate the survival rate separately for each class. Did people from the first class had a higher chance to survive?</li>
+<li>Did women have a higher chance to survive?</li>
+</ul>
+</div>
+<div id="variable-creation-and-updating" class="section level2">
+<h2><span class="header-section-number">3.4</span> Variable creation and updating</h2>
+<ul>
+<li>Add a new column <code>isMale</code> to the dataset which is <code>TRUE</code> if the passenger is male.</li>
+<li>Change the data-type of the <code>survived</code> column from <code>numeric</code> to <code>logical</code>.</li>
+<li>Add a new column <code>isChild</code> to the dataset which is <code>TRUE</code> if <code>age &lt; 18</code> and <code>FALSE</code> else. Are missing values preserved?</li>
+<li><em>Advanced</em>: Add a new column which is <code>TRUE</code> if the <code>name</code> contains the string <code>&quot;Miss&quot;</code> and <code>FALSE</code> else.
+<ul>
+<li>Use the function <code>grepl()</code></li>
+<li>Did unmarried woman had a greater chance to survive?</li>
+</ul></li>
+</ul>
+</div>
+<div id="advanced-significant-differences-in-the-survival-rates-chi-sqared-test" class="section level2">
+<h2><span class="header-section-number">3.5</span> <em>Advanced</em>: Significant differences in the survival rates (chi sqared test)</h2>
+<p>Use the function <code>chisq.test</code> to check if there is a significant relationship between the class and the survival rate of a personen.</p>
+<ul>
+<li>Use the <code>table</code> function to create a contingency table.</li>
+<li>Whats the null hypothesis of the test?</li>
+<li>How large is the p-value and what can you conclude?</li>
+</ul>
+</div>
+<div id="advanced-the-football-dataset" class="section level2">
+<h2><span class="header-section-number">3.6</span> <em>Advanced</em>: The football dataset</h2>
+<ul>
+<li>Import the football dataset using the <code>read.csv2()</code> function. Why do you have to use <code>read.csv2()</code> instead of <code>read.csv()</code>?</li>
+<li>How many games are in the dataset?</li>
+<li>How many unique countries are included in the dataset?</li>
+<li>How many games from the <code>FIFA World Cup</code> are included in the dataset?</li>
+<li>Think of some questions you want to answer with the dataset and if you can allready answer them with the tools you have learned so far.</li>
+</ul>
+</div>
+</div>
+<div id="functions-and-control-structures" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">4</span> Functions and control structures</h1>
+<div id="function-countmissings" class="section level2">
+<h2><span class="header-section-number">4.1</span> Function <code>countMissings()</code></h2>
+<p>Write a function <code>countMissings</code> which accepts a numeric vector <code>x</code> as input argument and returns the number of missing values <code>NA</code> in the vector.</p>
+<ul>
+<li><p>Use this template as a start:</p>
+<pre class="r"><code>countMissings &lt;- function(x){
+  # calculate nMissings here
+
+  # return the number of missing values
+  return(nMissings) 
+}</code></pre></li>
+<li>Apply the function to the <code>age</code> variable from the <code>titanic</code> dataset.</li>
+<li><p><em>Advanced</em>: If the vector contains <em>only</em> missing values, a warning should be printed to the console. Use the function <code>warning()</code> and an <code>if</code> construct for this.</p></li>
+</ul>
+</div>
+<div id="turn-descriptive.r-into-a-function" class="section level2">
+<h2><span class="header-section-number">4.2</span> Turn <code>descriptive.R</code> into a function</h2>
+<p>Wrap your code from <code>descriptive.R</code> into a function with the name <code>descriptive()</code>. The function accepts a numeric vector <code>x</code> as input argument, calculates the descriptive statistics and returns them in a <em>named</em> vector. Use this template as a start:</p>
+<pre class="r"><code>descriptive &lt;- function(x){
+  # calculate the descriptive statistics for x here
+  
+  # return the result
+  return(result) # result should be a named vector containing the descritpive statistics
+}</code></pre>
+<ul>
+<li><p>Tip: You can create a named vector like this:</p>
+<pre class="r"><code>result &lt;- c(mean = 0.4, sd = 4, range = 2)</code></pre></li>
+<li>Apply the function <code>descriptive()</code> to the <code>survived</code> and <code>pclass</code> column from the <code>titanic</code> dataset.</li>
+<li><em>Advanced</em>: What happens if you apply your function to the <code>age</code> variable which contains missing values. Think of ways to correctly handle missing values (e.g. you could add an additional argument <code>removeNA</code> to your function)</li>
+<li><p><em>Advanced</em>: If the type of the vector <code>x</code> is not <code>numeric</code>, the function should terminate with an error (look at the function <code>stop()</code>).</p></li>
+</ul>
+</div>
+<div id="the-sapply-function" class="section level2">
+<h2><span class="header-section-number">4.3</span> The <code>sapply()</code> function</h2>
+<ul>
+<li>use <code>sapply()</code> with the <code>countMissings()</code> function from exercise <span class="math inline">\(4.1\)</span> to count the number of missing values in each column of the <code>titanic</code> dataset.</li>
+</ul>
+</div>
+<div id="visibility-of-variables" class="section level2">
+<h2><span class="header-section-number">4.4</span> Visibility of variables</h2>
+<p>What’s wrong with the following lines of code? Rewrite the function <code>mySum</code> such that it can be used without errors.</p>
+<pre class="r"><code>mySum &lt;- function(a){# calculates the sum of two numbers a and b
+  return(a+b)
+}
+mySum(4)
+b &lt;- 6
+mySum(2)</code></pre>
+<p>Look at the following code:</p>
+<pre class="r"><code>norm &lt;- function(x){# calculates the eucledian norm of a vector
+  xNorm &lt;- sqrt(sum(x^2))
+  return(xNorm)
+}
+x &lt;- c(1, 2, 1)
+x &lt;- norm(x)
+xNorm
+x</code></pre>
+<ul>
+<li>Does the code terminate without any errors? Where is the mistake? Correct the mistake.</li>
+<li>In this example, what’s the <em>formal</em> and the <em>actucal</em> argument of the function <code>norm()</code>?</li>
+<li>What’s the value of the variable <code>x</code> after the code terminates?</li>
+</ul>
+</div>
+<div id="advanced-function-normalize" class="section level2">
+<h2><span class="header-section-number">4.5</span> <em>Advanced</em>: Function <code>normalize()</code></h2>
+<ul>
+<li>Write a function <code>normalize()</code> which standardizes a numeric vector <code>x</code> such that <span class="math display">\[ 
+x_{norm} = \frac{x-\bar{x}}{x_{sd}}
+\]</span>
+<ul>
+<li>If the vector contains missing values a warning via the function <code>warnings()</code> should be printed to the console.</li>
+<li>If the vector is not <code>numeric</code> (e.g. it contains logical values), the function should be terminating with an error. Use the function <code>stop()</code> and <code>is.numeric()</code>.</li>
+</ul></li>
+<li>Rewrite the function <code>normalize</code> such that the user can pass two parameters <code>m</code>and <code>s</code> with <span class="math display">\[ 
+x_{norm} = \frac{x-m}{s}
+\]</span>
+<ul>
+<li>Think of <em>downward compability</em>: A user should still be able to call the function via <code>normalize(x)</code>. You can achieve this by using <em>default arguments</em>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="extraction-and-updating" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">5</span> Extraction and updating</h1>
+<div id="vector-subsetting" class="section level2">
+<h2><span class="header-section-number">5.1</span> Vector subsetting</h2>
+<ul>
+<li>Which methods for extracting values from a vector do you know?</li>
+<li>Sample <span class="math inline">\(n = 100\)</span> values from the standard normal distribution and subset the sample by selecting
+<ul>
+<li>only positive values</li>
+<li>values between <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span></li>
+<li>the first and the last value</li>
+<li>everything but the first value</li>
+</ul></li>
+</ul>
+</div>
+<div id="test" class="section level2">
+<h2><span class="header-section-number">5.2</span> Test</h2>
+<p>Look at the two vectors:</p>
+<pre class="r"><code>x &lt;- c(2, 3, 4, 4)
+y &lt;- c(TRUE, FALSE, FALSE, TRUE)</code></pre>
+<p>Without using a computer: What’s the result of the following expressions?</p>
+<pre class="r"><code>sum(x[y])
+sum(x[!y])
+sum(y[x])
+sum(y[-x])
+# advanced
+which(x &gt; 3)
+which(x[y] &gt; 3)</code></pre>
+</div>
+<div id="remove-missing-values-from-a-vector" class="section level2">
+<h2><span class="header-section-number">5.3</span> Remove missing values from a vector</h2>
+<p>How can you remove missing values from a vector? Write a function <code>removeNA()</code> which takes some numeric vector <code>x</code> as input and returns the vector with missing values removed.</p>
+<ul>
+<li>Find an expression for selecting only non-missing values from the vector <code>x</code> (e.g. use the function <code>is.na</code> together with extraction method <code>[]</code>)</li>
+<li>Inside the function create a variable <code>xClean</code> containing the subset of <code>x</code> with the missing values removed</li>
+<li>Return the vector <code>xClean</code></li>
+</ul>
+<p>A call of this function should look like this:</p>
+<pre class="r"><code>x &lt;- c(2, 3, NA, 4)
+removeNA(x)</code></pre>
+<pre><code>[1] 2 3 4</code></pre>
+</div>
+<div id="set-negative-numbers-to-zero" class="section level2">
+<h2><span class="header-section-number">5.4</span> Set negative numbers to zero</h2>
+<p>Write a function <code>negToZero()</code> which sets negative numbers in a vector <code>x</code> to <span class="math inline">\(0\)</span>. A call of this function should look like this:</p>
+<pre class="r"><code>x &lt;- c(-10, 3, -2, 3, 4)
+negToZero(x)</code></pre>
+<pre><code>[1] 0 3 0 3 4</code></pre>
+</div>
+<div id="advanced-recoding" class="section level2">
+<h2><span class="header-section-number">5.5</span> <em>Advanced</em>: Recoding</h2>
+<p>Write a function <code>codeToNA()</code> which converts some user defined numbers in a vector <code>x</code> into <code>NA</code>s.</p>
+<ul>
+<li>Tip: Use the <code>%in%</code> operator to update the values inside the vector <code>x</code>.</li>
+<li>To understand how the <code>%in%</code> operator works, have a look at this example: <code>1:10 %in% c(1,3,5,9)</code></li>
+</ul>
+<p>A call of this function looks like this:</p>
+<pre class="r"><code>x &lt;- c(2, 3, -99, -999, NA, 4)
+codeToNA(x, c(-99, -999))</code></pre>
+<pre><code>[1]  2  3 NA NA NA  4</code></pre>
+</div>
+<div id="outlier-detection" class="section level2">
+<h2><span class="header-section-number">5.6</span> Outlier detection</h2>
+<p>Write a function <code>removeOutliers()</code> which identifies positive outliers in a numeric vector <code>x</code>.</p>
+<ul>
+<li>Here, a positive outlier <span class="math inline">\(x_i\)</span> is defined as <span class="math inline">\(x_i: x_i &gt; \bar{x} + 3*sd(x)\)</span>.</li>
+<li>The function should return the vector without outliers.</li>
+<li><em>Advanced</em>: Enhance the functionality by allowing the user to specify if only <em>positive</em>, only <em>negative</em> or both <em>positive</em> and <em>negative</em> outliers should be removed.</li>
+</ul>
+<p>A call of this function looks like this:</p>
+<pre class="r"><code>x &lt;- c(2, 3, 120,1.5, 2, 1, 0, 999)
+removeOutliers(x)</code></pre>
+<pre><code>[1]   2.0   3.0 120.0   1.5   2.0   1.0   0.0</code></pre>
+<ul>
+<li><em>Advanced</em>: You can also write a function <code>detectOutliers</code> which gives the <em>indices</em> of the outliers in a vector. Are there any outliers in the age column of the titanic dataset?</li>
+</ul>
+</div>
+<div id="extraction-and-updating-of-data-frames" class="section level2">
+<h2><span class="header-section-number">5.7</span> Extraction and updating of data frames</h2>
+<ul>
+<li>Add a new column <code>ageImputed</code> to the dataset which contains the age of the passenger but with <code>NA</code>s replaced by the overall average age (see <a href="https://www.iriseekhout.com/missing-data/missing-data-methods/imputation-methods/">Mean imputation</a>).</li>
+<li>Create a copy of the titanic dataset for which the passengers (e.g. the rows) with a missing value are removed.</li>
+<li>Filter the titanic dataset and select only:
+<ul>
+<li>the survivors</li>
+<li>women in the first class</li>
+<li>male children.</li>
+</ul></li>
+</ul>
+</div>
+<div id="advanced-two-sample-t-tests" class="section level2">
+<h2><span class="header-section-number">5.8</span> <em>Advanced</em>: Two sample t-tests</h2>
+<ul>
+<li>What is the average age for passengers which have a <code>Miss</code> in their name (comare with exercise 3.4)?</li>
+<li>Use the function <code>t.test</code> to perform a two sample t-test and check wether the difference in the mean age between Misses and all other passengers is significant.</li>
+<li>What’s the meaning of the confidence interval?</li>
+<li>Use the same test but now just use a one-sided test (e.g. test if the difference in the means is less than zero).</li>
+</ul>
+</div>
+<div id="ordering-of-data-frames" class="section level2">
+<h2><span class="header-section-number">5.9</span> Ordering of data frames</h2>
+<ul>
+<li>Order the rows of the titanic dataset such that the age is in <em>decreasing</em> order.</li>
+<li>What’s the name and age of the youngest/ the oldest passenger? Did he or she survive?</li>
+<li><em>Advanced</em>: Select the top <span class="math inline">\(10\)</span> youngest passengers from each class. How many of them survived?</li>
+</ul>
+</div>
+</div>
+<div id="visualizations" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">6</span> Visualizations</h1>
+<div id="step-by-step-visualization" class="section level2">
+<h2><span class="header-section-number">6.1</span> Step by step visualization</h2>
+<ul>
+<li>Complete the step by step visualization from the slides</li>
+<li>Add additional elements or labels</li>
+<li>Change the colors, the point size or the line type</li>
+<li>Save your plot as a pdf document</li>
+</ul>
+</div>
+<div id="visualization-examples" class="section level2">
+<h2><span class="header-section-number">6.2</span> Visualization examples</h2>
+<ul>
+<li><p>Choose a visualization from the examples on the slides and complete the plot, e.g.</p></li>
+<li>add a title, subtitle, caption</li>
+<li>change the theme</li>
+<li><p>…</p></li>
+</ul>
+</div>
+<div id="visualization-project" class="section level2">
+<h2><span class="header-section-number">6.3</span> Visualization project</h2>
+<ul>
+<li>Form groups of two to four and choose a dataset</li>
+<li>Develope a small research question or replicate a question from the exercises</li>
+<li>In a new .R script file read in the data, clean and transform it</li>
+<li>If needed, apply a regression model or conduct a statistical test</li>
+<li>Create 1 or 2 visualizations and upload the code to ILIAS
+<ul>
+<li>Make sure that your script file contains no errors, is readable and sharable</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="advanced-exercises" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">7</span> Advanced exercises</h1>
+<div id="matrics" class="section level2">
+<h2><span class="header-section-number">7.1</span> Matrics</h2>
+<p>Use the <code>matrix</code> function and create the following matrics <span class="math display">\[
+A=
+\begin{pmatrix}
+2 &amp; 4 \\
+1 &amp; 6 \\
+\end{pmatrix}
+, B =
+\begin{pmatrix}
+1 &amp; 3 &amp; 9\\
+8 &amp; 2 &amp; 4\\
+\end{pmatrix}
+, C =
+\begin{pmatrix}
+TRUE &amp; TRUE &amp; FALSE\\
+TRUE &amp; FALSE &amp; TRUE\\
+\end{pmatrix}
+\]</span> Calculate</p>
+<ul>
+<li><span class="math inline">\(A*B\)</span></li>
+<li><span class="math inline">\(B&#39;*A\)</span></li>
+<li><span class="math inline">\((A*B*A&#39;)^{-1}\)</span>.</li>
+</ul>
+</div>
+<div id="two-sample-t-test-for-equal-means" class="section level2">
+<h2><span class="header-section-number">7.2</span> Two-sample t-test for equal means</h2>
+<ul>
+<li>Write a function <code>myTTest</code> which tests, if the mean of two given numeric vectors <code>x</code> and <code>y</code> is statistically different from one another (see <a href="https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test">here</a> for a detailed explanation)
+<ul>
+<li>The input arguments of the function are the vectors <code>x</code>, <code>y</code> and a significance level <code>alpha</code></li>
+<li>The null hypothesis is: <span class="math inline">\(H_0: \mu_x = \mu_y\)</span>.</li>
+<li>The test value can be calculated as: <span class="math display">\[
+  T = \frac{\bar{x}-\bar{y}}{\sqrt{\frac{1}{n}x_{sd}^2+ \frac{1}{m}y_{sd}^2}}
+  \]</span></li>
+<li><span class="math inline">\(H_0\)</span> is rejected if <span class="math inline">\(|T| &gt; u_{1-\frac{\alpha}{2}}\)</span></li>
+<li><span class="math inline">\(n\)</span>, <span class="math inline">\(m\)</span> are the length of the vectors <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span></li>
+<li><span class="math inline">\(u_{1-\frac{\alpha}{2}}\)</span> is the quartile of the normal distribution (see <code>qnorm()</code>)</li>
+<li>The function should return a list with the mean of each of the two vectors, the test value and a logical value indicating the test result</li>
+</ul></li>
+<li>Compare your results with the built in function <code>t.test</code></li>
+<li><em>Advanced</em>
+<ul>
+<li>Calculate p-values or produce a nice output (e.g. with stars indicating the strength of significance)</li>
+<li>If the sample size <span class="math inline">\(n,m&lt;40\)</span> a warning should be printed (see <code>warning()</code>)</li>
+</ul></li>
+</ul>
+</div>
+<div id="write-your-own-linear-regression-function" class="section level2">
+<h2><span class="header-section-number">7.3</span> Write your own linear regression function</h2>
+<p>Write a function <code>myRegression</code> which performs a multivariate linear regression analysis given some outcome <code>y</code> and some design matrix <code>X</code>. The model is given by the equation: <span class="math display">\[
+y = X\beta + \epsilon,~ \epsilon \sim N(0, \sigma^2)
+\]</span> The function should calculate the following statistics:</p>
+<ul>
+<li>The regression coefficients: <span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}X&#39;y\)</span></li>
+<li>The number of observations <span class="math inline">\(N\)</span> and the number of regressors <span class="math inline">\(K\)</span></li>
+<li>The residuals: <span class="math inline">\(e = y - X\hat{\beta}\)</span></li>
+<li>The error variance <span class="math inline">\(\hat{\sigma^2} = \frac{\sum_{i = 1}^{N}{e_i^2}}{N-K}\)</span></li>
+<li>The coefficient of determination <span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^{N}{e_i^2}}{\sum_{i = 1}^{N}{(y_i - \bar{y})^2}}\)</span></li>
+</ul>
+<p>The results should be returned using a named list. Check your calculations using the built-in function <code>lm</code>.</p>
+<p><em>Advanced</em>: Enhance the function with a t-test for the coefficients and calculate p-values and confidence intervals</p>
+<p><em>Tip</em>: R can do matrix arithmetic such as addition, multiplication and inversion: Have a look at <code>help(&quot;%*%&quot;)</code> and <code>?solve</code></p>
+</div>
+<div id="modelling-survival-rates-with-linear-regression" class="section level2">
+<h2><span class="header-section-number">7.4</span> Modelling survival rates with linear regression</h2>
+<p>Use the titanic dataset and the examples from to slides:</p>
+<ul>
+<li>Run a simple linear regression model with the formula <code>survived ~ ageImputed</code>. Is the age significant (<code>ageImputed</code> was calculated in exercise 5.7)?</li>
+<li>In addition, include the <code>pclass</code> and the <code>sex</code> as independent variables. Is the age now significant?</li>
+<li>In the model above, what’s the effect of the age on the survival rate (E.g. how much does the probability of survival decreases for passenger who is one year older)?</li>
+<li>Include the <code>embarked</code> variable. Are there any significant effects?</li>
+<li>Use the <code>predict.lm</code> function to predict the probability of survival for each passenger. Compare the predicitons to the real outcome. How good is the fit?</li>
+<li><em>Advanced</em>: What’s the probability of survival for a <span class="math inline">\(20\)</span> year old male in the third class? Use the <code>predict.lm()</code> function with the <code>newdata</code> argument.</li>
+</ul>
+</div>
+<div id="string-operations" class="section level2">
+<h2><span class="header-section-number">7.5</span> String operations</h2>
+<p>Try to squeeze out some information from the <code>name</code> column in the <code>titanic</code> dataset:</p>
+<ul>
+<li>Look for family names and - together with the columns <code>embarked</code> and <code>pclass</code> - identify family members.</li>
+<li>Extract the title (e.g. <em>Mr</em>, <em>Miss</em>, <em>Master</em>, …) from the name.</li>
+<li>What else can you do?</li>
+</ul>
+<p>Tip: Install the <code>stringr</code> package, load it with <code>library(stringr)</code> and have a look at the various functions having the naming convention: <code>str_&lt;action&gt;()</code> (e.g. <code>str_replace()</code>, <code>str_detect()</code>).</p>
+</div>
+<div id="logistic-regression-modelling-and-visualization" class="section level2">
+<h2><span class="header-section-number">7.6</span> Logistic regression modelling and visualization</h2>
+<p>Use the <code>ggplot2</code> package, the <code>glm()</code> function and the <code>titanic</code> dataset to model and visualize survival rates on the titanic. Use a logistic regression model with the independent variables <em>age</em>, <em>pclass</em> and <em>sex</em> and the dependent variable <em>survived</em>.</p>
+<p>The final figure could look like this (A script to produce this figures can be found in the <a href="./scripts.html">scripts</a> section):</p>
+<p><img src="exercises_files/figure-html/titanic-survival-rates-1.png" width="2400" /></p>
+<p>A guidance on how to proceed:</p>
+<ul>
+<li>Import the <code>titanic</code> dataset and use the function <code>as.factor()</code> to transform the <em>pclass</em> and the <em>sex</em> variable into the <code>factor</code> datatype.</li>
+<li>Use the <code>glm</code> function with the formula: <code>survived ~ pclass + sex + age + pclass:sex + pclass:age + sex:age</code> and the <code>family = &quot;binomial&quot;</code> argument.
+<ul>
+<li>with the <code>:</code> in the formula, interaction effects can be specified</li>
+<li>with <code>family = &quot;binomial&quot;</code> one can specify a logistic regression model</li>
+</ul></li>
+<li>Apply the <code>summary()</code> function to the model object and try to interpretate the coefficients. Why is it important to transform the <em>pclass</em> variable to the <code>factor</code> datatype befor applying the model?</li>
+<li>Use the model, to predict survival rates over the possible range of <code>age</code>, <code>sex</code> and <code>pclass</code>
+<ul>
+<li>with the <code>expand.grid()</code> function, create a new <code>data.frame</code> filled with “artifical” passenger data: for each possible outcome of <code>sex</code> and <code>pclass</code> you should vary the <code>age</code> from <span class="math inline">\(0-70\)</span>.</li>
+<li>It is important that the new data has the same columns names as the variable names in the model (e.g. <code>sex</code>, <code>pclass</code> and <code>age</code>).<br />
+</li>
+<li>use the function <code>predict()</code> on the model object and the new data to predict the survival rates.</li>
+<li>add a new column with the predictions to the <code>data.frame</code> containing the new passenger data.</li>
+</ul></li>
+<li>Use the <code>ggplot()</code> function to plot the passenger data
+<ul>
+<li>Define the asthetics inside <code>ggplot()</code> with the <code>aes()</code> function. Use the asthetics <code>x</code>, <code>y</code> and <code>color</code>.</li>
+<li>Add the trend lines with <code>geom_line()</code></li>
+<li>Use <code>facet_grid(~pclass)</code> to create three separate plots</li>
+<li>Add a title with <code>ggtitle()</code></li>
+</ul></li>
+<li><em>Further steps</em>: Find out how to add confidence bars to the plot
+<ul>
+<li>The <code>predict()</code> function can return standard errors for the predictions</li>
+<li>The <code>geom_ribbon()</code> function adds an interval arround the trend lines. Use the additional asthetics <code>ymin</code> for the lower confidence bound, <code>ymax</code> for the upper confidence bound and <code>fill</code> for the transparent fill color.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="footer">
+  <p>&copy; 2018 <a href="http://maltebonart.de/">Malte Bonart</a> | <a href="mailto:malte.bonart@th-koeln.de">malte.bonart@th-koeln.de</a></p>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Malte Bonart" />
+  <title>Introduction to R: Extraction and updating of data-strucures</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="style.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Introduction to R: Extraction and updating of data-strucures</h1>
+    <h2 class="author">Malte Bonart</h2>
+</section>
+
+<section id="overview-of-important-data-strucutures" class="slide level2">
+<h2>Overview of important data strucutures</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Homogenous
+</th>
+<th style="text-align:left;">
+Heterogenous
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+One dimension
+</td>
+<td style="text-align:left;">
+vector: c()
+</td>
+<td style="text-align:left;">
+list: list()
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Two dimensions
+</td>
+<td style="text-align:left;">
+matrix: matrix()
+</td>
+<td style="text-align:left;">
+data.frame: data.frame()
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section><section id="recap-vectors" class="titleslide slide level1"><h1>Recap: vectors</h1></section><section id="basics" class="slide level2">
+<h2>Basics</h2>
+<ul>
+<li>data-types
+<ul>
+<li><code>numeric</code></li>
+<li><code>character</code></li>
+<li><code>logical</code></li>
+</ul></li>
+<li>missing values: <code>NA</code></li>
+<li>names: <code>names()</code></li>
+<li>length: <code>length()</code></li>
+<li>many functions and operators can be applied to single values <em>and</em> vectors</li>
+</ul>
+</section><section id="creation-c" class="slide level2">
+<h2>Creation <code>c()</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">A =</span> <span class="dv">4</span>, <span class="dt">B =</span> <span class="dv">12</span>, <span class="dt">C =</span> <span class="dv">34</span>)
+x</code></pre></div>
+<pre><code> A  B  C 
+ 4 12 34 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(x)</code></pre></div>
+<pre><code>[1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(x)</code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.numeric</span>(x)</code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+</section><section id="test" class="slide level2">
+<h2>Test</h2>
+<p>What’s the result of the following expressions?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">A =</span> <span class="dv">1</span>, <span class="dt">B =</span> <span class="dv">5</span>, <span class="dt">C =</span> <span class="dv">2</span>)
+
+<span class="kw">length</span>(x)             <span class="co"># 1</span>
+
+<span class="kw">is.numeric</span>(<span class="kw">names</span>(x))  <span class="co"># 2</span>
+
+<span class="kw">length</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)        <span class="co"># 3</span>
+
+<span class="kw">sum</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)           <span class="co"># 4</span>
+
+<span class="kw">is.logical</span>(x <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>)    <span class="co"># 5</span></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">A =</span> <span class="dv">1</span>, <span class="dt">B =</span> <span class="dv">5</span>, <span class="dt">C =</span> <span class="dv">2</span>)
+
+<span class="kw">length</span>(x)             <span class="co"># 1</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.numeric</span>(<span class="kw">names</span>(x))  <span class="co"># 2</span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">A =</span> <span class="dv">1</span>, <span class="dt">B =</span> <span class="dv">5</span>, <span class="dt">C =</span> <span class="dv">2</span>)
+
+<span class="kw">length</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)        <span class="co"># 3</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)           <span class="co"># 4</span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.logical</span>(x <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>)    <span class="co"># 5</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+</section></section>
+<section><section id="extracion-and-updating" class="titleslide slide level1"><h1>Extracion and updating</h1></section><section id="extraction-with-xy" class="slide level2">
+<h2>Extraction with <code>x[y]</code></h2>
+<p>4 possible methods to extract values from a vector <code>x</code> using another vector <code>y</code>:</p>
+<ul>
+<li><code>y</code> is a <code>numeric</code> vector with positive indices from <code>1</code> to <code>length(x)</code></li>
+<li><code>y</code> is a <code>logical</code> vector of size <code>length(x)</code></li>
+<li><code>y</code> is a <code>numeric</code> vector with negative (exclusive) indices from <code>-1</code> to <code>-length(x)</code></li>
+<li>(<code>y</code> is a <code>character</code> vector of names corresponding to <code>names(x)</code>)</li>
+</ul>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">A =</span> <span class="dv">1</span>, <span class="dt">B =</span> <span class="dv">4</span>, <span class="dt">C =</span> <span class="dv">6</span>, <span class="dt">D =</span> <span class="dv">2</span>)
+x</code></pre></div>
+<pre><code>A B C D 
+1 4 6 2 </code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li><code>y</code> is a <code>numeric</code> vector with positive indices from <code>1</code> to <code>length(x)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</code></pre></div>
+<pre><code>A B 
+1 4 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(x)]</code></pre></div>
+<pre><code>A B C D 
+1 4 6 2 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)]</code></pre></div>
+<pre><code>A A A 
+1 1 1 </code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li><code>y</code> is a <code>numeric</code> vector with negative (exclusive) indices from <code>-1</code> to <code>-length(x)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>)]</code></pre></div>
+<pre><code>C D 
+6 2 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="op">-</span><span class="dv">1</span>]</code></pre></div>
+<pre><code>B C D 
+4 6 2 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="op">-</span><span class="kw">length</span>(x)]</code></pre></div>
+<pre><code>A B C 
+1 4 6 </code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li><code>y</code> is a <code>logical</code> vector of size <code>length(x)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)]</code></pre></div>
+<pre><code>A D 
+1 2 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>]</code></pre></div>
+<pre><code>B C 
+4 6 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>x <span class="op">==</span><span class="st"> </span><span class="dv">4</span>]</code></pre></div>
+<pre><code>A B 
+1 4 </code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li><code>y</code> is a <code>character</code> vector of names corresponding to <code>names(x)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)]</code></pre></div>
+<pre><code>B C 
+4 6 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="st">&quot;D&quot;</span>]</code></pre></div>
+<pre><code>D 
+2 </code></pre>
+</section><section id="update-values-with-xy---z" class="slide level2">
+<h2>Update values with <code>x[y] &lt;- z</code></h2>
+<p>Extracted values can be directly updated (in-place).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="ot">NA</span>, <span class="dv">9</span>, <span class="ot">NA</span>, <span class="ot">NA</span>, <span class="op">-</span><span class="dv">99</span>)
+x</code></pre></div>
+<pre><code>[1]   1   4   2  NA   9  NA  NA -99</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+x</code></pre></div>
+<pre><code>[1]  1  4  2 NA  9 NA NA NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">is.na</span>(x)] &lt;-<span class="st"> </span><span class="op">-</span><span class="dv">1</span>
+x</code></pre></div>
+<pre><code>[1]  1  4  2 -1  9 -1 -1 -1</code></pre>
+</section><section id="replace-vectors-with-x---xy" class="slide level2">
+<h2>Replace vectors with <code>x &lt;- x[y]</code></h2>
+<p>Extracted values can be assigned to a new variable or override the original variable</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="ot">NA</span>, <span class="dv">9</span>, <span class="ot">NA</span>, <span class="ot">NA</span>, <span class="ot">NA</span>)
+x</code></pre></div>
+<pre><code>[1]  1  4  2 NA  9 NA NA NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>x[<span class="op">!</span><span class="kw">is.na</span>(x)]
+x</code></pre></div>
+<pre><code>[1] 1 4 2 9</code></pre>
+</section></section>
+<section><section id="extraction-and-updating-for-data-frames" class="titleslide slide level1"><h1>Extraction and updating for data frames</h1></section><section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>data frames are <em>two-dimensional</em></li>
+<li>each row represents a case, an observation, a person, …</li>
+<li>each column represents an outcome, a variable, …</li>
+<li>data frames have column names <code>names()</code></li>
+</ul>
+</section><section id="extraction-dfx-y-dfx-df-y" class="slide level2">
+<h2>Extraction: DF[x, y], DF[x, ], DF[, y]</h2>
+<ul>
+<li><code>x</code> chooses the rows, <code>y</code> chooses the columns: <code>DF[x, y]</code></li>
+<li>To select only rows/ columns
+<ul>
+<li><code>DF[x, ]</code>: select only rows</li>
+<li><code>DF[, y]</code>: select only columns</li>
+</ul></li>
+<li>Extraction methods are analogous to vectors</li>
+<li>Special case: <code>DF$y</code> to select only the column with the name <code>y</code></li>
+</ul>
+</section><section id="extraction-methods-for-rows-and-columns" class="slide level2">
+<h2>Extraction methods for rows and columns</h2>
+<ul>
+<li>a vector of positive indices: <code>DF[c(1, 2), ]</code></li>
+<li>a vector of negative indices: <code>DF[-1, -2]</code></li>
+<li>a logial vector: <code>DF[x &gt; 2, ]</code></li>
+<li>a vector with columnnames: <code>DF[, &quot;pclass&quot;]</code></li>
+</ul>
+</section><section id="example-i" class="slide level2">
+<h2>Example I</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+titanic[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="st">&quot;age&quot;</span>]</code></pre></div>
+<pre><code>[1] 29.0000  0.9167  2.0000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</code></pre></div>
+<pre><code>  X.1 X pclass
+1   1 1      1
+2   2 2      1
+3   3 3      1</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[<span class="dv">1</span>, ]</code></pre></div>
+<pre><code>  X.1 X pclass survived                          name    sex age embarked
+1   1 1      1        1 Allen, Miss. Elisabeth Walton female  29        S</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>name[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</code></pre></div>
+<pre><code>[1] &quot;Allen, Miss. Elisabeth Walton&quot;  &quot;Allison, Master. Hudson Trevor&quot;
+[3] &quot;Allison, Miss. Helen Loraine&quot;  </code></pre>
+</section><section id="example-ii" class="slide level2">
+<h2>Example II</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[titanic<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span> <span class="op">&amp;</span><span class="st"> </span>titanic<span class="op">$</span>age <span class="op">&lt;</span><span class="st"> </span><span class="dv">20</span> <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(titanic<span class="op">$</span>age), ]</code></pre></div>
+<pre><code>      X.1    X pclass survived
+12     12   12      1        1
+28     28   28      1        1
+54     54   54      1        0
+55     55   55      1        1
+56     56   56      1        1
+93     93   93      1        1
+115   115  115      1        0
+138   138  138      1        1
+160   160  160      1        1
+188   188  188      1        1
+194   194  194      1        1
+196   196  196      1        1
+198   198  198      1        0
+199   199  199      1        1
+217   217  217      1        1
+229   229  229      1        0
+230   230  230      1        1
+250   250  250      1        1
+251   251  251      1        1
+271   271  271      1        1
+290   290  290      1        1
+296   296  296      1        1
+327   327  327      2        0
+332   332  332      2        0
+338   338  338      2        1
+342   342  342      2        1
+345   345  345      2        1
+351   351  351      2        1
+365   365  365      2        0
+387   387  387      2        0
+391   391  391      2        0
+395   395  395      2        0
+396   396  396      2        1
+406   406  406      2        0
+409   409  409      2        0
+417   417  417      2        0
+446   446  446      2        0
+459   459  459      2        1
+483   483  483      2        1
+502   502  502      2        1
+504   504  504      2        1
+511   511  511      2        0
+514   514  514      2        1
+519   519  519      2        0
+531   531  531      2        0
+535   535  535      2        1
+553   553  553      2        0
+559   559  559      2        1
+569   569  569      2        0
+570   570  570      2        0
+583   583  583      2        1
+602   602  602      3        0
+603   603  603      3        0
+605   605  605      3        1
+608   608  608      3        1
+613   613  613      3        1
+620   620  620      3        0
+622   622  622      3        1
+626   626  626      3        1
+629   629  629      3        0
+637   637  637      3        0
+643   643  643      3        0
+651   651  651      3        0
+654   654  654      3        1
+662   662  662      3        1
+666   666  666      3        0
+670   670  670      3        0
+677   677  677      3        0
+693   693  693      3        0
+695   695  695      3        0
+696   696  696      3        0
+699   699  699      3        0
+701   701  701      3        0
+702   702  702      3        0
+710   710  710      3        1
+718   718  718      3        0
+720   720  720      3        1
+732   732  732      3        0
+738   738  738      3        0
+739   739  739      3        1
+741   741  741      3        0
+745   745  745      3        0
+756   756  756      3        0
+762   762  762      3        0
+772   772  772      3        1
+773   773  773      3        0
+778   778  778      3        1
+787   787  787      3        0
+788   788  788      3        0
+792   792  792      3        0
+793   793  793      3        0
+800   800  800      3        0
+810   810  810      3        0
+811   811  811      3        0
+819   819  819      3        1
+828   828  828      3        0
+830   830  830      3        0
+831   831  831      3        0
+840   840  840      3        0
+842   842  842      3        0
+856   856  856      3        0
+860   860  860      3        0
+886   886  886      3        0
+899   899  899      3        0
+911   911  911      3        0
+920   920  920      3        0
+939   939  939      3        0
+1008 1008 1008      3        1
+1012 1012 1012      3        0
+1046 1046 1046      3        0
+1048 1048 1048      3        1
+1051 1051 1051      3        1
+1057 1057 1057      3        1
+1058 1058 1058      3        1
+1061 1061 1061      3        1
+1094 1094 1094      3        0
+1105 1105 1105      3        0
+1106 1106 1106      3        0
+1109 1109 1109      3        0
+1128 1128 1128      3        0
+1131 1131 1131      3        0
+1134 1134 1134      3        0
+1158 1158 1158      3        0
+1162 1162 1162      3        0
+1172 1172 1172      3        0
+                                                                                   name
+12                                    Astor, Mrs. John Jacob (Madeleine Talmadge Force)
+28                                              Bishop, Mrs. Dickinson H (Helen Walton)
+54                                                               Carrau, Mr. Jose Pedro
+55                                                  Carter, Master. William Thornton II
+56                                                            Carter, Miss. Lucile Polk
+93                                            Dick, Mrs. Albert Adrian (Vera Gillespie)
+115                                                      Fortune, Mr. Charles Alexander
+138                                                        Graham, Miss. Margaret Edith
+160                                                        Hippach, Miss. Jean Gertrude
+188                                                           Lines, Miss. Mary Conover
+194                                                   Madill, Miss. Georgette Alexandra
+196                                                               Maioni, Miss. Roberta
+198                                                           Marvin, Mr. Daniel Warner
+199                      Marvin, Mrs. Daniel Warner (Mary Graham Carmichael Farquarson)
+217                                                        Newsom, Miss. Helen Monypeny
+229                                          Penasco y Castellana, Mr. Victor de Satode
+230  Penasco y Castellana, Mrs. Victor de Satode (Maria Josefa Perez de Soto y Vallejo)
+250                                                         Ryerson, Master. John Borie
+251                                                          Ryerson, Miss. Emily Borie
+271                                      Smith, Mrs. Lucien Philip (Mary Eloise Hughes)
+290                                                                 Taussig, Miss. Ruth
+296                                                         Thayer, Mr. John Borland Jr
+327                                                          Andrew, Mr. Edgardo Samuel
+332                                                            Bailey, Mr. Percy Andrew
+338                                                   Beane, Mrs. Edward (Ethel Clarke)
+342                                                        Becker, Miss. Ruth Elizabeth
+345                                                             Bentham, Miss. Lilian W
+351                                                           Brown, Miss. Edith Eileen
+365                                                               Carbines, Mr. William
+387                                                           Davies, Mr. Charles Henry
+391                                                           Deacon, Mr. Percy William
+395                                                                 Dibden, Mr. William
+396                                                                 Doling, Miss. Elsie
+406                                                           Fahlstrom, Mr. Arne Jonas
+409                                                       Fillbrook, Mr. Joseph Charles
+417                                                                 Gaskell, Mr. Alfred
+446                                                               Hiltunen, Miss. Marta
+459                                                                 Ilett, Miss. Bertha
+483                                                               Lehmann, Miss. Bertha
+502                                                   Mellinger, Miss. Madeleine Violet
+504                                                           Mellors, Mr. William John
+511                                                            Mudd, Mr. Thomas Charles
+514                                                 Nasser, Mrs. Nicholas (Adele Achem)
+519                                                        Nicholls, Mr. Joseph Charles
+531                                                     Pengelly, Mr. Frederick William
+535               Phillips, Miss. Kate Florence (\\Mrs Kate Louise Phillips Marshall\\)
+553                                                          Rogers, Mr. Reginald Harry
+559                                                       Silven, Miss. Lyyli Karoliina
+569                                                                   Swane, Mr. George
+570                                                         Sweet, Mr. George Frederick
+583                                                                Watt, Miss. Bertha J
+602                                                       Abbott, Master. Eugene Joseph
+603                                                         Abbott, Mr. Rossmore Edward
+605                                                         Abelseth, Miss. Karen Marie
+608                                           Abrahim, Mrs. Joseph (Sophie Halaut Easu)
+613                                                          Aks, Mrs. Sam (Leah Rosen)
+620                                                              Allum, Mr. Owen George
+622                                     Andersen-Jensen, Miss. Carla Christine Nielsine
+626                                                     Andersson, Miss. Erna Alexandra
+629                                                   Andersson, Miss. Sigrid Elisabeth
+637                                       Arnold-Franchi, Mrs. Josef (Josefine Franchi)
+643                                                        Asplund, Master. Filip Oscar
+651                                                               Attalah, Miss. Malake
+654                                                                Ayoub, Miss. Banoura
+662                                                          Badman, Miss. Emily Louisa
+666                                                               Barbara, Miss. Saiide
+670                                                          Beavan, Mr. William Thomas
+677                                                        Bjorklund, Mr. Ernst Herbert
+693                                                            Buckley, Miss. Katherine
+695                                                                 Burke, Mr. Jeremiah
+696                                                             Burns, Miss. Mary Delia
+699                                                                Cacic, Mr. Jego Grga
+701                                                                     Calic, Mr. Jovo
+702                                                                    Calic, Mr. Petar
+710                                                         Carr, Miss. Helen \\Ellen\\
+718                                                         Chronopoulos, Mr. Demetrios
+720                                                          Cohen, Mr. Gurshon \\Gus\\
+732                                                                   Cor, Mr. Liudevit
+738                                                            Crease, Mr. Ernest James
+739                                                            Cribb, Miss. Laura Alice
+741                                                                 Culumovic, Mr. Jeso
+745                                                                   Dakic, Mr. Branko
+756                                                                  Davies, Mr. Joseph
+762                                                           de Pelsmaeker, Mr. Alfons
+772                                                       Devaney, Miss. Margaret Delia
+773                                                                     Dika, Mr. Mirko
+778                                                          Dorking, Mr. Edward Arthur
+787                                                      Edvardsson, Mr. Gustaf Hjalmar
+788                                                              Eklund, Mr. Hans Linus
+792                                                                Elias, Mr. Joseph Jr
+793                                                                  Elias, Mr. Tannous
+800                                                     Fischer, Mr. Eberhard Thelander
+810                                                             Ford, Mr. Edward Watson
+811                                                              Ford, Mr. William Neal
+819                                                  Gilnagh, Miss. Katherine \\Katie\\
+828                                                  Goodwin, Master. William Frederick
+830                                                          Goodwin, Miss. Lillian Amy
+831                                                         Goodwin, Mr. Charles Edward
+840                                                         Gustafsson, Mr. Karl Gideon
+842                                                                Hagardon, Miss. Kate
+856                                                            Hassan, Mr. Houssein G N
+860                                                      Hegarty, Miss. Hanora \\Nora\\
+886                                                           Jensen, Mr. Svend Lauritz
+899                                                     Johnson, Mr. William Cahoone Jr
+911                                                          Kallio, Mr. Nikolai Erland
+920                                  Katavelas, Mr. Vassilios (\\Catavelas Vassilios\\)
+939                                                              Klasen, Mr. Klas Albin
+1008                                                      McGowan, Miss. Anna \\Annie\\
+1012                                                McNamee, Mrs. Neal (Eileen O&#39;Leary)
+1046                                            Myhrman, Mr. Pehr Fabian Oliver Malkolm
+1048                                                 Najib, Miss. Adele Kiamie \\Jane\\
+1051                                            Nakid, Mrs. Said (Waika \\Mary\\ Mowad)
+1057                                                       Nicola-Yarred, Master. Elias
+1058                                                        Nicola-Yarred, Miss. Jamila
+1061                                                        Nilsson, Miss. Berta Olivia
+1094                                                                Osen, Mr. Olaf Elon
+1105                                                          Panula, Mr. Ernesti Arvid
+1106                                                           Panula, Mr. Jaako Arnold
+1109                                                               Patchett, Mr. George
+1128                                                               Petroff, Mr. Nedelio
+1131                                                    Pettersson, Miss. Ellen Natalia
+1134                                                                  Pokrnic, Mr. Mate
+1158                                                        Rosblom, Mr. Viktor Richard
+1162                                                       Rush, Mr. Alfred George John
+1172                                                        Sage, Master. William Henry
+        sex  age embarked
+12   female 18.0        C
+28   female 19.0        C
+54     male 17.0        S
+55     male 11.0        S
+56   female 14.0        S
+93   female 17.0        S
+115    male 19.0        S
+138  female 19.0        S
+160  female 16.0        C
+188  female 16.0        S
+194  female 15.0        S
+196  female 16.0        S
+198    male 19.0        S
+199  female 18.0        S
+217  female 19.0        S
+229    male 18.0        C
+230  female 17.0        C
+250    male 13.0        C
+251  female 18.0        C
+271  female 18.0        S
+290  female 18.0        S
+296    male 17.0        C
+327    male 18.0        S
+332    male 18.0        S
+338  female 19.0        S
+342  female 12.0        S
+345  female 19.0        S
+351  female 15.0        S
+365    male 19.0        S
+387    male 18.0        S
+391    male 17.0        S
+395    male 18.0        S
+396  female 18.0        S
+406    male 18.0        S
+409    male 18.0        S
+417    male 16.0        S
+446  female 18.0        S
+459  female 17.0        S
+483  female 17.0        C
+502  female 13.0        S
+504    male 19.0        S
+511    male 16.0        S
+514  female 14.0        C
+519    male 19.0        S
+531    male 19.0        S
+535  female 19.0        S
+553    male 19.0        S
+559  female 18.0        S
+569    male 18.5        S
+570    male 14.0        S
+583  female 12.0        S
+602    male 13.0        S
+603    male 16.0        S
+605  female 16.0        S
+608  female 18.0        C
+613  female 18.0        S
+620    male 18.0        S
+622  female 19.0        S
+626  female 17.0        S
+629  female 11.0        S
+637  female 18.0        S
+643    male 13.0        S
+651  female 17.0        C
+654  female 13.0        C
+662  female 18.0        S
+666  female 18.0        C
+670    male 19.0        S
+677    male 18.0        S
+693  female 18.5        Q
+695    male 19.0        Q
+696  female 18.0        Q
+699    male 18.0        S
+701    male 17.0        S
+702    male 17.0        S
+710  female 16.0        Q
+718    male 18.0        C
+720    male 18.0        S
+732    male 19.0        S
+738    male 19.0        S
+739  female 17.0        S
+741    male 17.0        S
+745    male 19.0        S
+756    male 17.0        S
+762    male 16.0        S
+772  female 19.0        Q
+773    male 17.0        S
+778    male 19.0        S
+787    male 18.0        S
+788    male 16.0        S
+792    male 17.0        C
+793    male 15.0        C
+800    male 18.0        S
+810    male 18.0        S
+811    male 16.0        S
+819  female 16.0        Q
+828    male 11.0        S
+830  female 16.0        S
+831    male 14.0        S
+840    male 19.0        S
+842  female 17.0        Q
+856    male 11.0        C
+860  female 18.0        Q
+886    male 17.0        S
+899    male 19.0        S
+911    male 17.0        S
+920    male 18.5        C
+939    male 18.0        S
+1008 female 15.0        Q
+1012 female 19.0        S
+1046   male 18.0        S
+1048 female 15.0        C
+1051 female 19.0        C
+1057   male 12.0        C
+1058 female 14.0        C
+1061 female 18.0        S
+1094   male 16.0        S
+1105   male 16.0        S
+1106   male 14.0        S
+1109   male 19.0        S
+1128   male 19.0        S
+1131 female 18.0        S
+1134   male 17.0        S
+1158   male 18.0        S
+1162   male 16.0        S
+1172   male 14.5        S
+ [ reached getOption(&quot;max.print&quot;) -- omitted 14 rows ]</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[titanic<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;male&quot;</span>, ]</code></pre></div>
+<pre><code>      X.1    X pclass survived
+2       2    2      1        1
+4       4    4      1        0
+6       6    6      1        1
+8       8    8      1        0
+10     10   10      1        0
+11     11   11      1        0
+15     15   15      1        1
+16     16   16      1        0
+17     17   17      1        0
+20     20   20      1        0
+21     21   21      1        1
+23     23   23      1        1
+26     26   26      1        0
+27     27   27      1        1
+30     30   30      1        1
+31     31   31      1        0
+32     32   32      1        1
+35     35   35      1        0
+38     38   38      1        1
+39     39   39      1        0
+40     40   40      1        0
+41     41   41      1        0
+46     46   46      1        0
+47     47   47      1        0
+48     48   48      1        1
+50     50   50      1        1
+52     52   52      1        0
+53     53   53      1        0
+54     54   54      1        0
+55     55   55      1        1
+57     57   57      1        1
+59     59   59      1        0
+61     61   61      1        0
+63     63   63      1        0
+65     65   65      1        1
+69     69   69      1        1
+71     71   71      1        0
+72     72   72      1        0
+75     75   75      1        0
+76     76   76      1        0
+78     78   78      1        0
+81     81   81      1        0
+82     82   82      1        0
+85     85   85      1        0
+87     87   87      1        1
+88     88   88      1        1
+90     90   90      1        0
+92     92   92      1        1
+94     94   94      1        1
+95     95   95      1        1
+97     97   97      1        0
+101   101  101      1        1
+102   102  102      1        0
+107   107  107      1        0
+110   110  110      1        1
+111   111  111      1        0
+115   115  115      1        0
+116   116  116      1        0
+119   119  119      1        0
+120   120  120      1        1
+121   121  121      1        1
+124   124  124      1        1
+126   126  126      1        0
+127   127  127      1        0
+129   129  129      1        0
+133   133  133      1        0
+134   134  134      1        1
+136   136  136      1        0
+137   137  137      1        1
+139   139  139      1        0
+141   141  141      1        1
+143   143  143      1        0
+144   144  144      1        1
+146   146  146      1        1
+148   148  148      1        0
+149   149  149      1        0
+151   151  151      1        0
+152   152  152      1        1
+153   153  153      1        1
+155   155  155      1        0
+157   157  157      1        0
+158   158  158      1        0
+159   159  159      1        0
+163   163  163      1        0
+165   165  165      1        1
+166   166  166      1        1
+167   167  167      1        0
+171   171  171      1        1
+172   172  172      1        0
+173   173  173      1        0
+174   174  174      1        0
+175   175  175      1        0
+176   176  176      1        0
+178   178  178      1        1
+180   180  180      1        0
+184   184  184      1        1
+185   185  185      1        0
+186   186  186      1        0
+190   190  190      1        0
+192   192  192      1        0
+195   195  195      1        0
+197   197  197      1        1
+198   198  198      1        0
+201   201  201      1        0
+202   202  202      1        0
+203   203  203      1        1
+204   204  204      1        0
+206   206  206      1        0
+207   207  207      1        0
+210   210  210      1        1
+211   211  211      1        0
+212   212  212      1        0
+213   213  213      1        0
+216   216  216      1        0
+218   218  218      1        0
+220   220  220      1        1
+222   222  222      1        0
+223   223  223      1        0
+224   224  224      1        0
+225   225  225      1        0
+226   226  226      1        0
+227   227  227      1        0
+229   229  229      1        0
+232   232  232      1        1
+233   233  233      1        0
+                                                        name  sex     age
+2                             Allison, Master. Hudson Trevor male  0.9167
+4                       Allison, Mr. Hudson Joshua Creighton male 30.0000
+6                                        Anderson, Mr. Harry male 48.0000
+8                                     Andrews, Mr. Thomas Jr male 39.0000
+10                                   Artagaveytia, Mr. Ramon male 71.0000
+11                                    Astor, Col. John Jacob male 47.0000
+15                      Barkworth, Mr. Algernon Henry Wilson male 80.0000
+16                                       Baumann, Mr. John D male      NA
+17                                  Baxter, Mr. Quigg Edmond male 24.0000
+20                                      Beattie, Mr. Thomson male 36.0000
+21                             Beckwith, Mr. Richard Leonard male 37.0000
+23                                     Behr, Mr. Karl Howell male 26.0000
+26                                       Birnbaum, Mr. Jakob male 25.0000
+27                                   Bishop, Mr. Dickinson H male 25.0000
+30                 Bjornstrom-Steffansson, Mr. Mauritz Hakan male 28.0000
+31                              Blackwell, Mr. Stephen Weart male 45.0000
+32                                          Blank, Mr. Henry male 40.0000
+35                                  Borebank, Mr. John James male 42.0000
+38           Bradley, Mr. George (\\George Arthur Brayton\\) male      NA
+39                                   Brady, Mr. John Bertram male 41.0000
+40                                        Brandeis, Mr. Emil male 48.0000
+41                                 Brewe, Dr. Arthur Jackson male      NA
+46                         Butt, Major. Archibald Willingham male 45.0000
+47                                     Cairns, Mr. Alexander male      NA
+48                         Calderhead, Mr. Edward Pennington male 42.0000
+50                        Cardeza, Mr. Thomas Drake Martinez male 36.0000
+52                                  Carlsson, Mr. Frans Olof male 33.0000
+53                                   Carrau, Mr. Francisco M male 28.0000
+54                                    Carrau, Mr. Jose Pedro male 17.0000
+55                       Carter, Master. William Thornton II male 11.0000
+57                                Carter, Mr. William Ernest male 36.0000
+59                                    Case, Mr. Howard Brown male 49.0000
+61                             Cavendish, Mr. Tyrell William male 36.0000
+63                               Chaffee, Mr. Herbert Fuller male 46.0000
+65                             Chambers, Mr. Norman Campbell male 27.0000
+69                                  Chevre, Mr. Paul Romaine male 45.0000
+71                     Chisholm, Mr. Roderick Robert Crispin male      NA
+72                                  Clark, Mr. Walter Miller male 27.0000
+75                               Clifford, Mr. George Quincy male      NA
+76                                Colley, Mr. Edward Pomeroy male 47.0000
+78                          Compton, Mr. Alexander Taylor Jr male 37.0000
+81                                 Crafton, Mr. John Bertram male      NA
+82                              Crosby, Capt. Edward Gifford male 70.0000
+85                                 Cumings, Mr. John Bradley male 39.0000
+87                                    Daly, Mr. Peter Denis  male 51.0000
+88                               Daniel, Mr. Robert Williams male 27.0000
+90                                    Davidson, Mr. Thornton male 31.0000
+92                                   Dick, Mr. Albert Adrian male 31.0000
+94                                     Dodge, Dr. Washington male 53.0000
+95                                 Dodge, Master. Washington male  4.0000
+97                                Douglas, Mr. Walter Donald male 50.0000
+101           Duff Gordon, Sir. Cosmo Edmund (\\Mr Morgan\\) male 49.0000
+102                             Dulles, Mr. William Crothers male 39.0000
+107                                       Farthing, Mr. John male      NA
+110                       Flynn, Mr. John Irwin (\\Irving\\) male 36.0000
+111                          Foreman, Mr. Benjamin Laventall male 30.0000
+115                           Fortune, Mr. Charles Alexander male 19.0000
+116                                        Fortune, Mr. Mark male 64.0000
+119                              Franklin, Mr. Thomas Parham male      NA
+120                            Frauenthal, Dr. Henry William male 50.0000
+121                             Frauenthal, Mr. Isaac Gerald male 43.0000
+124                         Frolicher-Stehli, Mr. Maxmillian male 60.0000
+126                                         Fry, Mr. Richard male      NA
+127                              Futrelle, Mr. Jacques Heath male 37.0000
+129                                        Gee, Mr. Arthur H male 47.0000
+133                                       Giglio, Mr. Victor male 24.0000
+134                                 Goldenberg, Mr. Samuel L male 49.0000
+136                                Goldschmidt, Mr. George B male 71.0000
+137                                Gracie, Col. Archibald IV male 53.0000
+139                                Graham, Mr. George Edward male 38.0000
+141                          Greenfield, Mr. William Bertram male 23.0000
+143                                 Guggenheim, Mr. Benjamin male 46.0000
+144                              Harder, Mr. George Achilles male 25.0000
+146                                Harper, Mr. Henry Sleeper male 48.0000
+148                                Harrington, Mr. Charles H male      NA
+149                              Harris, Mr. Henry Birkhardt male 45.0000
+151                                    Harrison, Mr. William male 40.0000
+152                                       Hassab, Mr. Hammad male 27.0000
+153                              Hawksford, Mr. Walter James male      NA
+155                               Hays, Mr. Charles Melville male 55.0000
+157                                    Head, Mr. Christopher male 42.0000
+158                              Hilliard, Mr. Herbert Henry male      NA
+159                              Hipkins, Mr. William Edward male 55.0000
+163                           Holverson, Mr. Alexander Oskar male 42.0000
+165                        Homer, Mr. Harry (\\Mr E Haven\\) male 35.0000
+166                             Hoyt, Mr. Frederick Maxfield male 38.0000
+167                                 Hoyt, Mr. William Fisher male      NA
+171                                  Ismay, Mr. Joseph Bruce male 49.0000
+172                               Jones, Mr. Charles Cresson male 46.0000
+173                                 Julian, Mr. Henry Forbes male 50.0000
+174                                       Keeping, Mr. Edwin male 32.5000
+175                                  Kent, Mr. Edward Austin male 58.0000
+176                                  Kenyon, Mr. Frederick R male 41.0000
+178                             Kimball, Mr. Edwin Nelson Jr male 42.0000
+180                                       Klaber, Mr. Herman male      NA
+184                                   Lesurer, Mr. Gustave J male 35.0000
+185                                        Lewy, Mr. Ervin G male      NA
+186  Lindeberg-Lind, Mr. Erik Gustaf (\\Mr Edward Lingrey\\) male 42.0000
+190                                   Long, Mr. Milton Clyde male 29.0000
+192                               Loring, Mr. Joseph Holland male 30.0000
+195                                 Maguire, Mr. John Edward male 30.0000
+197                                     Marechal, Mr. Pierre male      NA
+198                                Marvin, Mr. Daniel Warner male 19.0000
+201                             McCaffry, Mr. Thomas Francis male 46.0000
+202                                  McCarthy, Mr. Timothy J male 54.0000
+203                                McGough, Mr. James Robert male 36.0000
+204                                  Meyer, Mr. Edgar Joseph male 28.0000
+206                                Millet, Mr. Francis Davis male 65.0000
+207                              Minahan, Dr. William Edward male 44.0000
+210                                 Mock, Mr. Philipp Edmund male 30.0000
+211                               Molson, Mr. Harry Markland male 55.0000
+212                           Moore, Mr. Clarence Bloomfield male 47.0000
+213                                    Natsch, Mr. Charles H male 37.0000
+216                               Newell, Mr. Arthur Webster male 58.0000
+218                             Nicholson, Mr. Arthur Ernest male 64.0000
+220                                Omont, Mr. Alfred Fernand male      NA
+222                           Ostby, Mr. Engelhart Cornelius male 65.0000
+223                          Ovies y Rodriguez, Mr. Servando male 28.5000
+224                            Parr, Mr. William Henry Marsh male      NA
+225                                      Partner, Mr. Austen male 45.5000
+226                               Payne, Mr. Vivian Ponsonby male 23.0000
+227                                Pears, Mr. Thomas Clinton male 29.0000
+229               Penasco y Castellana, Mr. Victor de Satode male 18.0000
+232                           Peuchen, Major. Arthur Godfrey male 52.0000
+233                           Porter, Mr. Walter Chamberlain male 47.0000
+     embarked
+2           S
+4           S
+6           S
+8           S
+10          C
+11          C
+15          S
+16          S
+17          C
+20          C
+21          S
+23          C
+26          C
+27          C
+30          S
+31          S
+32          C
+35          S
+38          S
+39          S
+40          C
+41          C
+46          S
+47          S
+48          S
+50          C
+52          S
+53          S
+54          S
+55          S
+57          S
+59          S
+61          S
+63          S
+65          S
+69          C
+71          S
+72          C
+75          S
+76          S
+78          C
+81          S
+82          S
+85          C
+87          S
+88          S
+90          S
+92          S
+94          S
+95          S
+97          C
+101         C
+102         C
+107         S
+110         S
+111         C
+115         S
+116         S
+119         S
+120         S
+121         C
+124         C
+126         S
+127         S
+129         S
+133         C
+134         C
+136         C
+137         C
+139         S
+141         C
+143         C
+144         C
+146         C
+148         S
+149         S
+151         S
+152         C
+153         S
+155         S
+157         S
+158         S
+159         S
+163         S
+165         C
+166         S
+167         C
+171         S
+172         S
+173         S
+174         C
+175         C
+176         S
+178         S
+180         S
+184         C
+185         C
+186         S
+190         S
+192         S
+195         S
+197         C
+198         S
+201         C
+202         S
+203         S
+204         C
+206         S
+207         Q
+210         C
+211         S
+212         S
+213         C
+216         C
+218         S
+220         C
+222         C
+223         C
+224         S
+225         S
+226         S
+227         S
+229         C
+232         S
+233         S
+ [ reached getOption(&quot;max.print&quot;) -- omitted 718 rows ]</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rowFilter &lt;-<span class="st"> </span>titanic<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">75</span> <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(titanic<span class="op">$</span>age)
+colFilter &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;survived&quot;</span>, <span class="st">&quot;pclass&quot;</span>)
+titanic[rowFilter, colFilter]</code></pre></div>
+<pre><code>                                                     name survived pclass
+15                   Barkworth, Mr. Algernon Henry Wilson        1      1
+62 Cavendish, Mrs. Tyrell William (Julia Florence Siegel)        1      1</code></pre>
+</section><section id="update-values-dfxy---z" class="slide level2">
+<h2>Update values <code>DF$x[y] &lt;- z</code></h2>
+<ul>
+<li>values can be updated in place</li>
+<li>usually the <code>$</code> - sign is used to select the column first</li>
+</ul>
+</section><section id="example-1" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>sex[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] <span class="co"># convert the column to 0, 1 values</span></code></pre></div>
+<pre><code> [1] &quot;female&quot; &quot;male&quot;   &quot;female&quot; &quot;male&quot;   &quot;female&quot; &quot;male&quot;   &quot;female&quot;
+ [8] &quot;male&quot;   &quot;female&quot; &quot;male&quot;  </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>sex[titanic<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;male&quot;</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+titanic<span class="op">$</span>sex[titanic<span class="op">$</span>sex <span class="op">==</span><span class="st"> &quot;female&quot;</span>] &lt;-<span class="st"> </span><span class="dv">1</span>
+titanic<span class="op">$</span>sex[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</code></pre></div>
+<pre><code> [1] &quot;1&quot; &quot;0&quot; &quot;1&quot; &quot;0&quot; &quot;1&quot; &quot;0&quot; &quot;1&quot; &quot;0&quot; &quot;1&quot; &quot;0&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(titanic<span class="op">$</span>sex)
+titanic<span class="op">$</span>sex[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</code></pre></div>
+<pre><code> [1] 1 0 1 0 1 0 1 0 1 0</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">is.na</span>(titanic<span class="op">$</span>age)) <span class="co"># age contains missing values</span></code></pre></div>
+<pre><code>[1] 263</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">meanAge &lt;-<span class="st"> </span><span class="kw">mean</span>(titanic<span class="op">$</span>age, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="co"># caculate the average age </span>
+meanAge </code></pre></div>
+<pre><code>[1] 29.88113</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>age[<span class="kw">is.na</span>(titanic<span class="op">$</span>age)] &lt;-<span class="st"> </span>meanAge <span class="co"># impute missing values with the average age</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(titanic<span class="op">$</span>age))</code></pre></div>
+<pre><code>[1] 0</code></pre>
+</section><section id="delete-rows-or-columns" class="slide level2">
+<h2>Delete Rows or Columns</h2>
+<p>as with vectors, data frames can be replaced by a subset</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># only female</span>
+titanic &lt;-<span class="st"> </span>titanic[titanic<span class="op">$</span>sex <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]
+<span class="co"># delete the third column</span>
+titanic &lt;-<span class="st"> </span>titanic[, <span class="op">-</span><span class="dv">3</span>]
+<span class="co"># another possibility</span>
+titanic[,<span class="dv">3</span>] &lt;-<span class="st"> </span><span class="ot">NULL</span>
+
+<span class="kw">head</span>(titanic)</code></pre></div>
+<pre><code>   X.1  X                                              name sex age
+1    1  1                     Allen, Miss. Elisabeth Walton   1  29
+3    3  3                      Allison, Miss. Helen Loraine   1   2
+5    5  5   Allison, Mrs. Hudson J C (Bessie Waldo Daniels)   1  25
+7    7  7                 Andrews, Miss. Kornelia Theodosia   1  63
+9    9  9     Appleton, Mrs. Edward Dale (Charlotte Lamson)   1  53
+12  12 12 Astor, Mrs. John Jacob (Madeleine Talmadge Force)   1  18
+   embarked
+1         S
+3         S
+5         S
+7         S
+9         S
+12        C</code></pre>
+</section><section id="the-which-function" class="slide level2">
+<h2>The <code>which</code> function</h2>
+<ul>
+<li>Returns the indices at which a <code>logical</code> vector is `TRUE</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
+<span class="kw">which</span>(x)</code></pre></div>
+<pre><code>[1] 2 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(titanic<span class="op">$</span>survived <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>titanic<span class="op">$</span>pclass <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>  [1]   1   2   6   7   9  12  13  14  15  18  19  21  22  23  24  25  27
+ [18]  28  29  30  32  33  34  36  37  38  42  43  44  45  48  49  50  51
+ [35]  55  56  57  58  60  62  64  65  66  67  68  69  70  73  74  77  79
+ [52]  80  83  84  86  87  88  89  91  92  93  94  95  96  98  99 100 101
+ [69] 103 104 105 108 109 110 112 113 114 117 118 120 121 122 123 124 125
+ [86] 128 130 131 132 134 135 137 138 140 141 142 144 145 146 147 150 152
+[103] 153 154 156 160 161 162 164 165 166 168 169 171 177 178 179 181 182
+[120] 183 184 187 188 189 191 193 194 196 197 199 200 203 205 208 209 210
+[137] 214 215 217 219 220 221 228 230 231 232 234 236 239 241 243 246 248
+[154] 250 251 252 254 255 256 257 258 259 260 261 262 264 265 266 271 272
+[171] 273 274 275 276 278 279 281 282 283 285 289 290 292 293 294 296 297
+[188] 298 299 303 305 309 310 312 315 316 318 320 321 323</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">which</span>(x))</code></pre></div>
+<pre><code>[1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>[1] 2</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
+<span class="kw">length</span>(<span class="kw">which</span>(x))</code></pre></div>
+<pre><code>[1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>[1] 2</code></pre>
+</section></section>
+<section><section id="ordering-by-variables-and-selection-of-maxima-and-minima" class="titleslide slide level1"><h1>Ordering by variables and selection of maxima and minima</h1></section><section id="ordering-of-a-dataset" class="slide level2">
+<h2>Ordering of a dataset</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span>titanic[<span class="kw">order</span>(titanic<span class="op">$</span>age), ]
+<span class="kw">head</span>(titanic)</code></pre></div>
+<pre><code>      X.1    X pclass survived                                      name
+764   764  764      3        1 Dean, Miss. Elizabeth Gladys \\Millvina\\
+748   748  748      3        0   Danbom, Master. Gilbert Sigvard Emanuel
+1241 1241 1241      3        1           Thomas, Master. Assad Alexander
+428   428  428      2        1                 Hamalainen, Master. Viljo
+658   658  658      3        1                    Baclini, Miss. Eugenie
+659   659  659      3        1             Baclini, Miss. Helene Barbara
+        sex    age embarked
+764  female 0.1667        S
+748    male 0.3333        S
+1241   male 0.4167        C
+428    male 0.6667        S
+658  female 0.7500        C
+659  female 0.7500        C</code></pre>
+</section><section id="select-the-top-bottom-5" class="slide level2">
+<h2>Select the top/ bottom 5</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">youngest &lt;-<span class="st"> </span><span class="kw">order</span>(titanic<span class="op">$</span>age)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
+oldest &lt;-<span class="st"> </span><span class="kw">order</span>(titanic<span class="op">$</span>age, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
+titanic[youngest, <span class="op">-</span><span class="dv">3</span>]</code></pre></div>
+<pre><code>      X.1    X survived                                      name    sex
+764   764  764        1 Dean, Miss. Elizabeth Gladys \\Millvina\\ female
+748   748  748        0   Danbom, Master. Gilbert Sigvard Emanuel   male
+1241 1241 1241        1           Thomas, Master. Assad Alexander   male
+428   428  428        1                 Hamalainen, Master. Viljo   male
+658   658  658        1                    Baclini, Miss. Eugenie female
+        age embarked
+764  0.1667        S
+748  0.3333        S
+1241 0.4167        C
+428  0.6667        S
+658  0.7500        C</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[oldest, <span class="op">-</span><span class="dv">3</span>]</code></pre></div>
+<pre><code>      X.1    X survived
+15     15   15        1
+62     62   62        1
+1236 1236 1236        0
+10     10   10        0
+136   136  136        0
+                                                       name    sex age
+15                     Barkworth, Mr. Algernon Henry Wilson   male  80
+62   Cavendish, Mrs. Tyrell William (Julia Florence Siegel) female  76
+1236                                    Svensson, Mr. Johan   male  74
+10                                  Artagaveytia, Mr. Ramon   male  71
+136                               Goldschmidt, Mr. George B   male  71
+     embarked
+15          S
+62          S
+1236        S
+10          C
+136         C</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">oldest &lt;-<span class="st"> </span><span class="kw">order</span>(titanic<span class="op">$</span>age, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
+titanic[oldest, <span class="op">-</span><span class="dv">3</span>]</code></pre></div>
+<pre><code>      X.1    X survived
+15     15   15        1
+62     62   62        1
+1236 1236 1236        0
+10     10   10        0
+136   136  136        0
+                                                       name    sex age
+15                     Barkworth, Mr. Algernon Henry Wilson   male  80
+62   Cavendish, Mrs. Tyrell William (Julia Florence Siegel) female  76
+1236                                    Svensson, Mr. Johan   male  74
+10                                  Artagaveytia, Mr. Ramon   male  71
+136                               Goldschmidt, Mr. George B   male  71
+     embarked
+15          S
+62          S
+1236        S
+10          C
+136         C</code></pre>
+</section><section id="select-the-maxima-or-minima" class="slide level2">
+<h2>Select the maxima or minima</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[<span class="kw">which.min</span>(titanic<span class="op">$</span>age), ]</code></pre></div>
+<pre><code>    X.1   X pclass survived                                      name
+764 764 764      3        1 Dean, Miss. Elizabeth Gladys \\Millvina\\
+       sex    age embarked
+764 female 0.1667        S</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[<span class="kw">which.max</span>(titanic<span class="op">$</span>age), ]</code></pre></div>
+<pre><code>   X.1  X pclass survived                                 name  sex age
+15  15 15      1        1 Barkworth, Mr. Algernon Henry Wilson male  80
+   embarked
+15        S</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic[<span class="kw">which.max</span>(titanic<span class="op">$</span>age), ]</code></pre></div>
+<pre><code>   X.1  X pclass survived                                 name  sex age
+15  15 15      1        1 Barkworth, Mr. Algernon Henry Wilson male  80
+   embarked
+15        S</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># gives the same result but harder to read</span>
+titanic[<span class="kw">which</span>(titanic<span class="op">$</span>age <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(titanic<span class="op">$</span>age)), ]</code></pre></div>
+<pre><code>[1] X.1      X        pclass   survived name     sex      age      embarked
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</section></section>
+    </div>
+  </div>
+
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: false,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

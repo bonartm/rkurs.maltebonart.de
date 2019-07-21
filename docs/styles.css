@@ -1,0 +1,31 @@
+#footer {
+  color:gray;
+  text-align:right;
+  padding-top:30px;
+}
+
+.section h1 {
+    padding-top: 65px;
+    margin-top: -30px !important;
+}
+
+.tab-content {
+    font-size: 16px;
+}
+
+.empty-header h1{
+  padding-top: 35px !important;
+  font-size: 0px;
+}
+
+
+
+h3 span.header-section-number {
+    display: none;
+}
+
+.tab-content {
+  font-size:16px;
+}
+
+

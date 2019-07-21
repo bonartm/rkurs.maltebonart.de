@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>http://rkurs.maltebonart.de/</loc>
+  <lastmod>2018-03-16T16:59:38+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/index.html</loc>
+  <lastmod>2018-03-16T16:59:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/exercises.html</loc>
+  <lastmod>2018-03-16T16:59:37+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/pre_course_notes.pdf</loc>
+  <lastmod>2018-03-15T19:08:18+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/01_introduction.html</loc>
+  <lastmod>2018-03-15T19:07:59+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/02_operators_vectors.html</loc>
+  <lastmod>2018-03-15T19:07:59+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/03_data_frames.html</loc>
+  <lastmod>2018-03-15T19:07:59+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/04_functions.html</loc>
+  <lastmod>2018-03-15T19:08:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/05_extraction.html</loc>
+  <lastmod>2018-03-15T19:08:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/06_visualization.html</loc>
+  <lastmod>2018-03-15T19:08:17+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/slides/07_advanced.html</loc>
+  <lastmod>2018-03-15T19:12:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/cheatsheet.html</loc>
+  <lastmod>2018-03-16T16:59:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/datasets.html</loc>
+  <lastmod>2018-03-16T16:59:37+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://rkurs.maltebonart.de/scripts.html</loc>
+  <lastmod>2018-03-16T16:59:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>
