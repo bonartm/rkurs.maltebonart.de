@@ -1,3 +1,9 @@
+.directory
+logs
+private
+docs/CNAME
+docs/LICENSE
+
 # History files
 .Rhistory
 .Rapp.history
