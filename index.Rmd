@@ -1,17 +1,7 @@
 ---
 title: "Accompanying course website"
-date: "March 2018"
+date: "2019"
 ---
-
-For the winter term 2017/18, the course *Introduction to R* takes place on:
-
-- March 12, 09:00 - 12:00: Preparatory course 
-- March 13, 09:00 - 15:00: Basics, data types, operators and vectors
-- March 14, 09:00 - 15:00: Data import, data frames, functions
-- March 15, 09:00 - 15:00: Extraction, updating
-- March 16, 09:00 - 15:00: Visualization and presentation
-
-We meet at the [Regional Computing Centre (RRZK) of the University of Cologne](https://goo.gl/maps/Do8i2vCYgJt), *Seminar room 3*.
 
 # <i class="fa fa-link"></i> Usefull links
 
