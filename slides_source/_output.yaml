@@ -1,0 +1,11 @@
+revealjs::revealjs_presentation:
+  self_contained: false
+  center: true
+  transition: none
+  slide_level: 2
+  theme: white
+  highlight: default
+  reveal_options:
+    slideNumber: true
+    history: false
+    

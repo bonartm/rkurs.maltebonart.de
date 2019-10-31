@@ -1,0 +1,135 @@
+---
+title: "Introduction to R: Vectors and Operators"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+# http://directpoll.com/c?XDVhEtVHRZBEc4Ln7AxJqIT3LugvOjDt
+```
+
+# Vectors
+
+## Introduction
+- `vector`: basic data structure in R
+- one dimensional array of the same data type
+- three data types: `numeric`, `character`, `logical` 
+- `c()` function to combine elements to a vector
+
+## Numeric, character, logical 
+- `character`: elements are specified in quotes: `"hello"`
+- `logical`: keywords `TRUE` or `FALSE`
+- `numeric`: regular numbers
+
+## Numeric, character, logical 
+```{r}
+c(3+4, 2^3, sqrt(123), exp(2))
+c(TRUE, FALSE, FALSE)
+c("hi", "by")
+```
+
+## Length of a vector
+- vectors always have a defined length
+```{r, eval = TRUE, echo = TRUE}
+m <- seq(1, 12)
+length(m)
+```
+
+## Creation
+- the `c()` function: `c(1, 2, 12, 3)`
+- the `rep()` function: `rep("A", times = 4)`
+- the `seq()` function `seq(from = 1, to = 4, by = 0.25)`
+
+## Sequences
+- `c()` to combine values to a vector of the same data type. 
+- `rep()` to repeat the values of a given vector
+- `seq()` to generate sequences with fixed length
+- `x:y` short for `seq(x, y, by = 1)`
+
+## Casting and testing
+- using the functions `as.numeric()`, `is.numeric()`, `as.character()`, `is.character()`, ... one can test and cast an object from one type to another
+```{r}
+as.numeric("4")
+is.logical(0)
+is.logical(TRUE)
+```
+
+## Names of a vector
+```{r}
+month <- 1:12
+month
+names(month) <- c("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
+month
+```
+
+## Random numbers
+- `rnorm()` random numbers from the normal distribution
+- `rbinom()` - random numbers from the binomial distribution
+- `runif()` - uniform distribution 
+- `rt()` - t distribution
+- `sample()` - sample values with or without replacement from a vector
+
+# Operators
+## Overview
+- Numeric operators: $numeric \times numeric = numeric$
+- Relational operators: $numeric \times numeric = logical$
+- Logical operators:  $logical \times logical = logical$
+- Assignment Operator `<-`: $name \times value = object$
+
+## Numeric operators: $numeric \times numeric = numeric$
+```{r}
+3^2
+-3+5
+3*7
+9/3
+```
+## Relational operators: $numeric \times numeric = logical$
+```{r}
+4 < 5
+3 != 4
+5 == 2
+"a" < "b" 
+"hallo" == 10
+```
+## Logical operators: $logical \times logical = logical$
+```{r}
+TRUE | FALSE
+TRUE & FALSE
+!TRUE
+```
+## Assignment Operator $name \times value = object$
+```{r}
+y <- 10
+x <- 2
+x
+```
+
+## Vectorization
+- Most operators and many functions work for vectors 
+- This is usefull for fast calculations and checking on large vectors
+```{r}
+numbers <- c(1, 2, 5, -100, 23, 43)
+sqrt(numbers)
+numbers < 0
+```
+
+
+# Missing values
+##  Missing values
+- very common when working with real datasets
+- Keyword: `NA`
+
+## Examples
+```{r}
+val <- c(3, 5, 2, NA)
+sum(val)
+sum(val, na.rm = T)
+is.na(val)
+sum(is.na(val))
+
+```
+
+
+
+

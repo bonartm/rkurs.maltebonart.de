@@ -1,0 +1,156 @@
+---
+title: "Introduction to R: Functions and control structures"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+titanic <- read.csv("./www/titanic.csv", stringsAsFactors = FALSE)
+```
+
+# `if`- `else` conditions
+
+## Introduction
+`if(cond) {true.expr} else {false.expr}`  
+
+- Binary case switch: If `cond` is `TRUE` then run `{true.expr}` else run `{false.expr}`. 
+- Applications
+    - control random events
+    - call special handlers in case of missing values, wrong data type, ...
+    - inside functions
+
+## Example
+```{r}
+if (4 < 6){
+  val <- 4
+} else {
+  val <- 4 + 2
+}
+val
+```
+
+
+# Functions
+## Introduction
+- data structures represent information, functions 'do' something with information
+- practically no difference between user-defined and built-in functions
+- cleaner and less error-prone code
+- should be defined at the *beginning* of a script file or in an extra file
+
+## Example
+```{r, eval = TRUE}
+hello <- function(name){
+  words <- paste("Hello", name)
+  return(words)
+}
+hello("Lisa")
+hello("Ben")
+```
+
+## Definition
+- Keyword: `function`
+- Formal function arguments: `(arg1, arg2, ...)`
+- Function body: `{...}`
+- A `return` statement
+
+## Example
+
+```{r}
+mySum <- function(a, b){
+  sum <- a + b
+  return(sum)
+}
+mySum(a = 4, b = 10)
+mySum(a = 4, b = NA)
+
+```
+
+# Visibility of variables
+## Input and output
+- When passing objects to a function a *copy* of this object is created
+- The copy only exists inside the function. The global object is not changed.
+- The return value of a function can be saved as a new variable
+
+## Example
+```{r}
+addTwo <- function(x) {
+  x <- x + 2
+  return(x)
+}
+x <- 6
+addTwo(x)
+x                 # x is still as before
+x <- addTwo(x)    # the result of the function is assigned to the variable x
+x                 # now x has changed
+```
+
+## Variables inside functions
+Variables which are declared inside a function are not accessible from outside the function
+```{r, error = T}
+f <- function(x, y) {
+  z <- x + y
+  return(x)
+}
+f(2, 3)
+z
+```
+
+## Functions and the global environment I 
+Variables which were defined outside of a function are also visible inside the function
+```{r}
+y <- 5
+h <- function(x) {
+  return(x*y)
+}
+h(2)
+```
+
+## Functions and the global environment II
+But what happens, if the object `y` is removed from the global environment?
+```{r, error = T}
+rm(y)
+h(2)
+```
+**Never use global variables inside a function!**
+
+
+# The `sapply` function
+
+## Introduction
+
+- sapply a function to each column of a `data.frame`
+- *functional* programming: pass a function as function argument to another function
+- family members: `lapply`, `sapply`, `vapply`, ...
+
+## Example: Check for missing values, the bad way
+```{r, eval = TRUE, echo = FALSE}
+countNA <- function(x){
+  sum(is.na(x))
+}
+```
+
+
+```{r}
+countNA(titanic$pclass)
+countNA(titanic$sex)
+countNA(titanic$age)
+countNA(titanic$name)
+```
+
+## Example: Check for missing values, the `sapply` way
+```{r}
+sapply(titanic, countNA)
+```
+
+## Advantages
+
+- avoid repetitions
+- cleaner code and less errors
+- becomes powerful with user defined functions
+
+
+
+
+
+

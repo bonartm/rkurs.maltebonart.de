@@ -1,0 +1,30 @@
+---
+title: "Accompanying course website"
+date: "March 2018"
+---
+
+For the winter term 2017/18, the course *Introduction to R* takes place on:
+
+- March 12, 09:00 - 12:00: Preparatory course 
+- March 13, 09:00 - 15:00: Basics, data types, operators and vectors
+- March 14, 09:00 - 15:00: Data import, data frames, functions
+- March 15, 09:00 - 15:00: Extraction, updating
+- March 16, 09:00 - 15:00: Visualization and presentation
+
+We meet at the [Regional Computing Centre (RRZK) of the University of Cologne](https://goo.gl/maps/Do8i2vCYgJt), *Seminar room 3*.
+
+# <i class="fa fa-link"></i> Usefull links
+
+- Try R by Code School - A free [online tutorial](http://tryr.codeschool.com/).
+- DataCamp’s free [R Tutorial](https://www.datacamp.com/courses/free-introduction-to-r) (registration needed).
+- Hadley Whickham's [Style guide for R](http://adv-r.had.co.nz/Style.html).
+- Beginners Guide to R from the online magazine [Computerworld](https://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html).
+- Free e-book [R for Data Science](http://r4ds.had.co.nz/).
+- Good beginner's [book](http://www.springer.com/de/book/9780387790534)
+- Official R [introduction](https://cran.r-project.org/doc/manuals/R-intro.html)
+- `ggplot2` [reference](http://ggplot2.tidyverse.org/reference/)
+- `ggplot2` [cheat sheet](https://www.rstudio.org/links/data_visualization_cheat_sheet)
+
+
+
+

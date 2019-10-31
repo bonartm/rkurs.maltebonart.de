@@ -1,0 +1,44 @@
+---
+title: "Datasets"
+output: 
+  html_document:
+    toc: false
+    toc_depth: 2
+    toc_float: true
+---
+
+This contains a collection of introductory datasets.
+
+___
+
+# {.tabset .tabset-fade .empty-header}
+## The titanic dataset
+<blockquote>
+  <p>The sinking of the RMS Titanic is one of the most infamous shipwrecks in history.  On April 15, 1912, during her maiden voyage, the Titanic sank after colliding with an iceberg, killing 1502 out of 2224 passengers and crew. This sensational tragedy shocked the international community and led to better safety regulations for ships. One of the reasons that the shipwreck led to such loss of life was that there were not enough lifeboats for the passengers and crew. Although there was some element of luck involved in surviving the sinking, some groups of people were more likely to survive than others, such as women, children, and the upper-class. </p>
+  <footer>Excerpt from [kaggle.com](https://www.kaggle.com/c/titanic)</footer>
+</blockquote>
+
+> Direct [download](./www/titanic.csv)
+
+
+## The soccer dataset
+
+<blockquote>
+  <p>This dataset includes 38,759 results of international football matches starting from the very first official match in 1972 up to 2018. The matches range from World Cup to Baltic Cup to regular friendly matches. The matches are strictly men's full internationals and the data does not include Olympic Games or matches where at least one of the teams was the nation's B-team, U-23 or a league select team. </p>
+  <footer>Excerpt from [kaggle.com](https://www.kaggle.com/martj42/international-football-results-from-1872-to-2017)</footer>
+</blockquote>
+
+> Direct [download](./www/football.csv)
+
+## Further links to free data sets
+- kaggle collection of thousands of datasets ([here](https://www.kaggle.com/datasets))
+- European Social Survey ([here](http://www.europeansocialsurvey.org/data/))
+- ALLBUS ([here](https://www.gesis.org/en/allbus/download/download-cross-sectional-studies/))
+- Worldbank Open Data ([here](https://data.worldbank.org/))
+- Offene Daten Köln ([here](https://offenedaten-koeln.de/))
+- IMDB Movie datasets ([here](https://datasets.imdbws.com/))
+
+
+
+
+

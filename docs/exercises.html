@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -25,9 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -76,9 +76,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -92,7 +90,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -102,6 +99,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -117,7 +117,6 @@ body {
   padding-top: 71px;
   margin-top: -71px;
 }
-
 .section h2 {
   padding-top: 71px;
   margin-top: -71px;
@@ -137,6 +136,43 @@ body {
 .section h6 {
   padding-top: 71px;
   margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -158,47 +194,65 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -247,8 +301,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -257,6 +309,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -298,9 +360,6 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="./slides/pre_course_notes.pdf">German speaker notes for prep course</a>
-    </li>
     <li>
       <a href="./slides/01_introduction.html">Basics</a>
     </li>
@@ -388,8 +447,8 @@ div.tocify {
 <li>Download the <em>titanic</em> and the <em>football</em> dataset from the course website and place it in the <code>data</code> folder.</li>
 <li>In RStudio type <code>getwd()</code> into the console window. This prints out the full path of your projects root folder.
 <ul>
-<li>Type <code>list.files(&quot;./data&quot;)</code> into the console window. What’s the meaning of the dot <code>.</code> in the file path?</li>
-<li>What’s the output of the call <code>list.files(&quot;../&quot;)</code>?</li>
+<li>Type <code>list.files("./data")</code> into the console window. What’s the meaning of the dot <code>.</code> in the file path?</li>
+<li>What’s the output of the call <code>list.files("../")</code>?</li>
 </ul></li>
 </ul>
 </div>
@@ -412,11 +471,11 @@ div.tocify {
 <div id="kvb-bikes-in-cologne" class="section level2">
 <h2><span class="header-section-number">1.3</span> KVB bikes in cologne</h2>
 <ol style="list-style-type: decimal">
-<li>Download the script <code>kvb.R</code> from the course website and save it in the project’s <code>source</code> folder.</li>
+<li><p>Download the script <code>kvb.R</code> from the course website and save it in the project’s <code>source</code> folder.</p></li>
 <li><p>Install the missing packages <code>XML</code> and <code>leaflet</code> with the function <code>install.packages</code></p>
 <pre class="r"><code>install.packages(c(&quot;XML&quot;, &quot;leaflet&quot;))</code></pre></li>
-<li>In your project in RStudio, open the script file and run the code line by line. Does the script terminate without any errors?</li>
-<li><em>Advanced</em>
+<li><p>In your project in RStudio, open the script file and run the code line by line. Does the script terminate without any errors?</p></li>
+<li><p><em>Advanced</em></p>
 <ul>
 <li>Change the color of the markers from red to green.</li>
 <li>Try to get and visualize data for another city in which <em>nextbike</em> operates (Inside the code, you have to change the link to the nextbike api).</li>
@@ -452,8 +511,10 @@ div.tocify {
 <pre class="r"><code>  rnorm(n = 10)
   rnorm(10, 2, 4)
   rnorm(mean = 2)
-  rnorm(sd = 3, mean = 1, n = 3)</code></pre></li>
+  rnorm(sd = 3, mean = 1, n = 3)</code></pre>
+<ul>
 <li>With the help of the above function calls, explain how R matches <em>formal</em> to <em>actual</em> arguments!</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -463,11 +524,11 @@ div.tocify {
 <h2><span class="header-section-number">2.1</span> Basic data types</h2>
 <ul>
 <li>What are the three basic data types? Write down a code example for each of them.</li>
-<li>What’s the difference between <code>TRUE</code> and <code>&quot;TRUE&quot;</code>? Whats the difference between <code>pi</code> and <code>&quot;pi&quot;</code>?</li>
+<li>What’s the difference between <code>TRUE</code> and <code>"TRUE"</code>? Whats the difference between <code>pi</code> and <code>"pi"</code>?</li>
 <li>Use the function <code>as.numeric()</code> to cast values to a <em>numeric</em> type:
 <ul>
 <li>What’s the numeric value of <code>TRUE</code> and <code>FALSE</code>?</li>
-<li>Can you cast the character string <code>&quot;hi&quot;</code> to a numeric value? Try the same with the string <code>&quot;5&quot;</code>.</li>
+<li>Can you cast the character string <code>"hi"</code> to a numeric value? Try the same with the string <code>"5"</code>.</li>
 <li>How can you cast a numeric value to a string? To a logical value?</li>
 </ul></li>
 </ul>
@@ -475,20 +536,20 @@ div.tocify {
 <div id="vectors-and-variable-assignment" class="section level2">
 <h2><span class="header-section-number">2.2</span> Vectors and variable assignment</h2>
 <ul>
-<li>Asign the value <span class="math inline">\(12\)</span> to a variable with the name <code>pi</code>
+<li><p>Asign the value <span class="math inline">\(12\)</span> to a variable with the name <code>pi</code></p>
 <ul>
 <li>Why is this dangerous?</li>
 <li>Remove the variable by calling the <code>rm()</code> function with the appropriate argument.</li>
 </ul></li>
 <li><p>Use the <code>c()</code> function to store the results from the calculations in exercise <em>1.4</em> in a vector . Assign the vector to a variable with the name <code>values</code>.</p></li>
-<li>Try to find the name of the built-in functions and answer the following questions:
+<li><p>Try to find the name of the built-in functions and answer the following questions:</p>
 <ul>
 <li>What’s the sum and the product of the elements in the vector?</li>
 <li>What is the smallest/ largest value?</li>
 <li>How can you sort the vecor?</li>
 <li>How can you determine the length of the vector?</li>
 </ul></li>
-<li>Call the <code>ls()</code> function to list all user variables in the global envrionment.
+<li><p>Call the <code>ls()</code> function to list all user variables in the global envrionment.</p>
 <ul>
 <li>How many variables are listed? Try to answer this question programmatically.</li>
 <li>What is the data type of the object returned by a call of <code>ls()</code>?</li>
@@ -652,7 +713,7 @@ length(x)</code></pre>
 <li>Add a new column <code>isMale</code> to the dataset which is <code>TRUE</code> if the passenger is male.</li>
 <li>Change the data-type of the <code>survived</code> column from <code>numeric</code> to <code>logical</code>.</li>
 <li>Add a new column <code>isChild</code> to the dataset which is <code>TRUE</code> if <code>age &lt; 18</code> and <code>FALSE</code> else. Are missing values preserved?</li>
-<li><em>Advanced</em>: Add a new column which is <code>TRUE</code> if the <code>name</code> contains the string <code>&quot;Miss&quot;</code> and <code>FALSE</code> else.
+<li><em>Advanced</em>: Add a new column which is <code>TRUE</code> if the <code>name</code> contains the string <code>"Miss"</code> and <code>FALSE</code> else.
 <ul>
 <li>Use the function <code>grepl()</code></li>
 <li>Did unmarried woman had a greater chance to survive?</li>
@@ -692,7 +753,7 @@ length(x)</code></pre>
   # return the number of missing values
   return(nMissings) 
 }</code></pre></li>
-<li>Apply the function to the <code>age</code> variable from the <code>titanic</code> dataset.</li>
+<li><p>Apply the function to the <code>age</code> variable from the <code>titanic</code> dataset.</p></li>
 <li><p><em>Advanced</em>: If the vector contains <em>only</em> missing values, a warning should be printed to the console. Use the function <code>warning()</code> and an <code>if</code> construct for this.</p></li>
 </ul>
 </div>
@@ -708,8 +769,8 @@ length(x)</code></pre>
 <ul>
 <li><p>Tip: You can create a named vector like this:</p>
 <pre class="r"><code>result &lt;- c(mean = 0.4, sd = 4, range = 2)</code></pre></li>
-<li>Apply the function <code>descriptive()</code> to the <code>survived</code> and <code>pclass</code> column from the <code>titanic</code> dataset.</li>
-<li><em>Advanced</em>: What happens if you apply your function to the <code>age</code> variable which contains missing values. Think of ways to correctly handle missing values (e.g. you could add an additional argument <code>removeNA</code> to your function)</li>
+<li><p>Apply the function <code>descriptive()</code> to the <code>survived</code> and <code>pclass</code> column from the <code>titanic</code> dataset.</p></li>
+<li><p><em>Advanced</em>: What happens if you apply your function to the <code>age</code> variable which contains missing values. Think of ways to correctly handle missing values (e.g. you could add an additional argument <code>removeNA</code> to your function)</p></li>
 <li><p><em>Advanced</em>: If the type of the vector <code>x</code> is not <code>numeric</code>, the function should terminate with an error (look at the function <code>stop()</code>).</p></li>
 </ul>
 </div>
@@ -884,10 +945,12 @@ removeOutliers(x)</code></pre>
 <div id="visualization-examples" class="section level2">
 <h2><span class="header-section-number">6.2</span> Visualization examples</h2>
 <ul>
-<li><p>Choose a visualization from the examples on the slides and complete the plot, e.g.</p></li>
+<li><p>Choose a visualization from the examples on the slides and complete the plot, e.g.</p>
+<ul>
 <li>add a title, subtitle, caption</li>
 <li>change the theme</li>
-<li><p>…</p></li>
+<li>…</li>
+</ul></li>
 </ul>
 </div>
 <div id="visualization-project" class="section level2">
@@ -939,8 +1002,8 @@ TRUE &amp; FALSE &amp; TRUE\\
 <li>The input arguments of the function are the vectors <code>x</code>, <code>y</code> and a significance level <code>alpha</code></li>
 <li>The null hypothesis is: <span class="math inline">\(H_0: \mu_x = \mu_y\)</span>.</li>
 <li>The test value can be calculated as: <span class="math display">\[
-  T = \frac{\bar{x}-\bar{y}}{\sqrt{\frac{1}{n}x_{sd}^2+ \frac{1}{m}y_{sd}^2}}
-  \]</span></li>
+T = \frac{\bar{x}-\bar{y}}{\sqrt{\frac{1}{n}x_{sd}^2+ \frac{1}{m}y_{sd}^2}}
+\]</span></li>
 <li><span class="math inline">\(H_0\)</span> is rejected if <span class="math inline">\(|T| &gt; u_{1-\frac{\alpha}{2}}\)</span></li>
 <li><span class="math inline">\(n\)</span>, <span class="math inline">\(m\)</span> are the length of the vectors <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span></li>
 <li><span class="math inline">\(u_{1-\frac{\alpha}{2}}\)</span> is the quartile of the normal distribution (see <code>qnorm()</code>)</li>
@@ -968,7 +1031,7 @@ y = X\beta + \epsilon,~ \epsilon \sim N(0, \sigma^2)
 </ul>
 <p>The results should be returned using a named list. Check your calculations using the built-in function <code>lm</code>.</p>
 <p><em>Advanced</em>: Enhance the function with a t-test for the coefficients and calculate p-values and confidence intervals</p>
-<p><em>Tip</em>: R can do matrix arithmetic such as addition, multiplication and inversion: Have a look at <code>help(&quot;%*%&quot;)</code> and <code>?solve</code></p>
+<p><em>Tip</em>: R can do matrix arithmetic such as addition, multiplication and inversion: Have a look at <code>help("%*%")</code> and <code>?solve</code></p>
 </div>
 <div id="modelling-survival-rates-with-linear-regression" class="section level2">
 <h2><span class="header-section-number">7.4</span> Modelling survival rates with linear regression</h2>
@@ -987,10 +1050,10 @@ y = X\beta + \epsilon,~ \epsilon \sim N(0, \sigma^2)
 <p>Try to squeeze out some information from the <code>name</code> column in the <code>titanic</code> dataset:</p>
 <ul>
 <li>Look for family names and - together with the columns <code>embarked</code> and <code>pclass</code> - identify family members.</li>
-<li>Extract the title (e.g. <em>Mr</em>, <em>Miss</em>, <em>Master</em>, …) from the name.</li>
+<li>Extract the title (e.g. <em>Mr</em>, <em>Miss</em>, <em>Master</em>, …) from the name.</li>
 <li>What else can you do?</li>
 </ul>
-<p>Tip: Install the <code>stringr</code> package, load it with <code>library(stringr)</code> and have a look at the various functions having the naming convention: <code>str_&lt;action&gt;()</code> (e.g. <code>str_replace()</code>, <code>str_detect()</code>).</p>
+<p>Tip: Install the <code>stringr</code> package, load it with <code>library(stringr)</code> and have a look at the various functions having the naming convention: <code>str_&lt;action&gt;()</code> (e.g. <code>str_replace()</code>, <code>str_detect()</code>).</p>
 </div>
 <div id="logistic-regression-modelling-and-visualization" class="section level2">
 <h2><span class="header-section-number">7.6</span> Logistic regression modelling and visualization</h2>
@@ -1000,16 +1063,16 @@ y = X\beta + \epsilon,~ \epsilon \sim N(0, \sigma^2)
 <p>A guidance on how to proceed:</p>
 <ul>
 <li>Import the <code>titanic</code> dataset and use the function <code>as.factor()</code> to transform the <em>pclass</em> and the <em>sex</em> variable into the <code>factor</code> datatype.</li>
-<li>Use the <code>glm</code> function with the formula: <code>survived ~ pclass + sex + age + pclass:sex + pclass:age + sex:age</code> and the <code>family = &quot;binomial&quot;</code> argument.
+<li>Use the <code>glm</code> function with the formula: <code>survived ~ pclass + sex + age + pclass:sex + pclass:age + sex:age</code> and the <code>family = "binomial"</code> argument.
 <ul>
 <li>with the <code>:</code> in the formula, interaction effects can be specified</li>
-<li>with <code>family = &quot;binomial&quot;</code> one can specify a logistic regression model</li>
+<li>with <code>family = "binomial"</code> one can specify a logistic regression model</li>
 </ul></li>
 <li>Apply the <code>summary()</code> function to the model object and try to interpretate the coefficients. Why is it important to transform the <em>pclass</em> variable to the <code>factor</code> datatype befor applying the model?</li>
 <li>Use the model, to predict survival rates over the possible range of <code>age</code>, <code>sex</code> and <code>pclass</code>
 <ul>
 <li>with the <code>expand.grid()</code> function, create a new <code>data.frame</code> filled with “artifical” passenger data: for each possible outcome of <code>sex</code> and <code>pclass</code> you should vary the <code>age</code> from <span class="math inline">\(0-70\)</span>.</li>
-<li>It is important that the new data has the same columns names as the variable names in the model (e.g. <code>sex</code>, <code>pclass</code> and <code>age</code>).<br />
+<li>It is important that the new data has the same columns names as the variable names in the model (e.g. <code>sex</code>, <code>pclass</code> and <code>age</code>).<br />
 </li>
 <li>use the function <code>predict()</code> on the model object and the new data to predict the survival rates.</li>
 <li>add a new column with the predictions to the <code>data.frame</code> containing the new passenger data.</li>
@@ -1031,7 +1094,8 @@ y = X\beta + \epsilon,~ \epsilon \sim N(0, \sigma^2)
 </div>
 
 <div id="footer">
-  <p>&copy; 2018 <a href="http://maltebonart.de/">Malte Bonart</a> | <a href="mailto:malte.bonart@th-koeln.de">malte.bonart@th-koeln.de</a></p>
+<p>&copy; 2019 <a href="https://maltebonart.de/">Malte Bonart</a></p>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.  
 </div>
 
 
@@ -1051,6 +1115,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

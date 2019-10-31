@@ -1,0 +1,27 @@
+---
+title: "Scripts"
+output: 
+  html_document:
+    toc: false
+    toc_depth: 2
+    toc_float: true
+---
+
+This contains a collection of R scripts.
+
+___
+
+# {.tabset .tabset-fade .empty-header}
+
+## Visualization of kvb bikes in cologne
+
+> Download the code [here](./www/kvb.R).
+
+```{r, code=readLines("./www/kvb_static.R"), eval=TRUE, echo = FALSE, , dpi=300, out.width="100%", out.height="400px"}
+```
+
+## Logistic regression modelling and visualization of titanic survival rates
+> Download the code [here](./www/titanic.R).
+
+```{r titanic-survival-rates, code=readLines("./www/titanic.R"), eval=TRUE, echo = FALSE, dpi=300, out.width="100%", fig.width=8}
+```

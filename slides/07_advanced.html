@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Malte Bonart" />
+  <title>Introduction to R: Further topics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="style.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Introduction to R: Further topics</h1>
+    <h2 class="author">Malte Bonart</h2>
+</section>
+
+<section id="how-to-continue" class="slide level2">
+<h2>How to continue?</h2>
+<ul>
+<li>Two additional important data structures in <code>R</code>
+<ul>
+<li><a href="#/lists"><code>list</code></a></li>
+<li><a href="#/matrix"><code>matrix</code></a></li>
+</ul></li>
+<li>Iteration over data structures with the <a href="#/lapply"><code>lapply</code>- function</a></li>
+<li>Aggregation and grouping with the <a href="#/dplyr"><code>dplyr</code> package</a></li>
+<li>Linear regression models with the <a href="#/lm"><code>lm</code> function</a></li>
+<li>Time and datetime values in <code>R</code> with the <code>lubridate</code> package</li>
+<li>String manipulation with the <code>stringr</code> package</li>
+</ul>
+</section>
+<section id="save-datasets" class="slide level2">
+<h2>Save datasets</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># text format</span>
+<span class="kw">write.csv</span>(titanic, <span class="dt">file =</span> <span class="st">&quot;./www/titanic.csv&quot;</span>) 
+
+<span class="kw">write.table</span>(titanic, <span class="dt">file =</span> <span class="st">&quot;./www/titanic.csv&quot;</span>, 
+            <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
+
+
+<span class="co"># binary &#39;R&#39; format</span>
+<span class="kw">saveRDS</span>(titanic, <span class="dt">file =</span> <span class="st">&quot;./www/titanic.rds&quot;</span>) 
+
+<span class="kw">save</span>(titanic, <span class="dt">file =</span> <span class="st">&quot;./www/titanic.RData&quot;</span>)</code></pre></div>
+</section>
+<section id="overview-of-important-data-strucutures" class="slide level2">
+<h2>Overview of important data strucutures</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Homogen
+</th>
+<th style="text-align:left;">
+Hetergogen
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Eindimensional
+</td>
+<td style="text-align:left;">
+vector c()
+</td>
+<td style="text-align:left;">
+list list()
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zweidimensional
+</td>
+<td style="text-align:left;">
+matrix matrix()
+</td>
+<td style="text-align:left;">
+data.frame data.frame()
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section><section id="lists" class="titleslide slide level1"><h1>Lists</h1></section><section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>One dimensional data structure</li>
+<li>Each entry can be an arbitrary data strucutre (vector, matrice, data frame, function, list)</li>
+<li>“<em>Lists are like freight trains</em>”</li>
+<li>Usefull inside functions to return several results with different data structures</li>
+</ul>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">values =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">fun =</span> sum, <span class="dt">innerlist =</span> <span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+l</code></pre></div>
+<pre><code>$values
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+$fun
+function (..., na.rm = FALSE)  .Primitive(&quot;sum&quot;)
+
+$innerlist
+$innerlist[[1]]
+[1] 1
+
+$innerlist[[2]]
+[1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(l)</code></pre></div>
+<pre><code>[1] 3</code></pre>
+</section><section id="list-element-extraction-l..." class="slide level2">
+<h2>List element extraction: <code>L[...]</code></h2>
+<ul>
+<li>Result of an extraction is always a <em>list</em></li>
+<li>Methods of extraction are the same as for <code>vectors</code> or <code>data.frames</code>
+<ul>
+<li>logical vector</li>
+<li>positive (inclusive) or negative (exclusive) indices</li>
+<li>character vector (if list has <code>names</code>)</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)]</code></pre></div>
+<pre><code>$values
+ [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l[<span class="kw">c</span>(<span class="st">&quot;innerlist&quot;</span>, <span class="st">&quot;fun&quot;</span>)]</code></pre></div>
+<pre><code>$innerlist
+$innerlist[[1]]
+[1] 1
+
+$innerlist[[2]]
+[1] 2
+
+
+$fun
+function (..., na.rm = FALSE)  .Primitive(&quot;sum&quot;)</code></pre>
+</section><section id="data-extraction-l..." class="slide level2">
+<h2>Data extraction: <code>L[[...]]</code></h2>
+<ul>
+<li>Extracts the <em>content</em> inside <em>one</em> list element</li>
+<li>Only <em>one</em> element can be extracted</li>
+<li><code>$</code>-sign extraction possible (if list has <code>names</code>)</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l<span class="op">$</span>values</code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l[[<span class="st">&quot;fun&quot;</span>]]</code></pre></div>
+<pre><code>function (..., na.rm = FALSE)  .Primitive(&quot;sum&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l[[<span class="st">&quot;fun&quot;</span>]](<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)) <span class="co"># directly apply the &#39;sum&#39; function</span></code></pre></div>
+<pre><code>[1] 6</code></pre>
+</section></section>
+<section><section id="matrix" class="titleslide slide level1"><h1>Matrices</h1></section><section id="introduction-1" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>Two-dimensional data structure where each entry has the same data-type
+<ul>
+<li>Like <code>vector</code> but two-dimensional</li>
+<li>Like <code>data.frame</code> but only one data-type allowed (<code>numeric</code>, <code>logical</code>, <code>character</code>)</li>
+</ul></li>
+<li>Special operators and functions for matrix algebra
+<ul>
+<li>Inversion: <code>solve()</code></li>
+<li>Multiplication: <code>%*%</code></li>
+<li>Transpose: <code>t()</code></li>
+</ul></li>
+</ul>
+</section><section id="creation" class="slide level2">
+<h2>Creation</h2>
+<ul>
+<li><code>matrix()</code> function with at least two arguments:
+<ul>
+<li>a vector <code>c()</code> of elements</li>
+<li><code>nrow</code> or <code>ncol</code> specification</li>
+<li>matrix is filled by columns unless <code>byrow = TRUE</code></li>
+</ul></li>
+</ul>
+</section><section id="example-1" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">ncol =</span> <span class="dv">3</span>)
+mat</code></pre></div>
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    4
+[2,]    3    6    5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    2
+[2,]    6    4    5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="kw">ncol</span>(mat), <span class="kw">nrow</span>(mat))</code></pre></div>
+<pre><code>[1] 3 2</code></pre>
+</section><section id="extration-mi-j" class="slide level2">
+<h2>Extration <code>M[i, j]</code></h2>
+<ul>
+<li>Methods of extraction are the same as for <code>vectors</code> or <code>data.frames</code>
+<ul>
+<li>logical vector</li>
+<li>positive (inclusive) or negative (exclusive) indices</li>
+<li>character vector (if matrix has <code>rownames</code> or <code>colnames</code>)</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    1    2
+[2,]    3    6</code></pre>
+</section></section>
+<section><section id="lapply" class="titleslide slide level1"><h1>The lapply family</h1></section><section id="idea" class="slide level2">
+<h2>Idea</h2>
+<ul>
+<li><code>apply</code>: iteratation over the columns or rows of a <code>matrix</code></li>
+<li><code>lapply</code>, <code>sapply</code>: iteration over a <code>vector</code>, <code>list</code> or the columns of a <code>data.frame</code></li>
+<li>avoids code repitions and errors</li>
+<li>code becomes easier to read</li>
+<li>alternative to <code>for</code> loops</li>
+</ul>
+</section><section id="the-sapply-function" class="slide level2">
+<h2>The sapply function</h2>
+<p><code>sapply(X, FUN, ...)</code></p>
+<ul>
+<li><code>X</code> is a list a vector or a data frame</li>
+<li><code>FUN</code> is a function which is applied on each column of a data frame or each entry of the list or each value of a vector</li>
+<li><code>...</code> additional arguments of the function specified in <code>FUN</code></li>
+</ul>
+</section><section id="example-i" class="slide level2">
+<h2>Example I</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+countNA &lt;-<span class="st"> </span><span class="cf">function</span>(x){
+  <span class="kw">return</span>(<span class="kw">sum</span>(<span class="kw">is.na</span>(x)))
+}
+<span class="kw">sapply</span>(titanic, countNA)</code></pre></div>
+<pre><code>     X.1        X   pclass survived     name      sex      age embarked 
+       0        0        0        0        0        0      263        0 </code></pre>
+</section><section id="example-ii" class="slide level2">
+<h2>Example II</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>), <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">3</span>), <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dt">mean =</span> <span class="op">-</span><span class="dv">3</span>))
+<span class="kw">lapply</span>(l, mean)</code></pre></div>
+<pre><code>[[1]]
+[1] -0.04727389
+
+[[2]]
+[1] 2.999733
+
+[[3]]
+[1] -2.786998</code></pre>
+</section><section id="for-loop" class="slide level2">
+<h2><code>for</code> loop</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">100</span>)
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
+  result[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1000</span>))
+}</code></pre></div>
+</section><section id="sapply-loop" class="slide level2">
+<h2><code>sapply</code> loop</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="cf">function</span>(i) {
+  <span class="kw">mean</span>(<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1000</span>))
+})</code></pre></div>
+</section></section>
+<section><section id="dplyr" class="titleslide slide level1"><h1><code>dplyr</code> package: Grouping and aggregation of data frames</h1></section><section id="introduction-2" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>The <code>dplyr</code> package provides a powerfull <em>grammar</em> of data analysis</li>
+<li>Commands are chained together with the piping operator <code>%&gt;%</code></li>
+<li>Easier and cleaner way for a lot of common <code>data.frame</code> operations:
+<ul>
+<li>grouping,</li>
+<li>sorting</li>
+<li>filtering</li>
+<li>aggregation</li>
+<li>conversion between <em>long</em> and <em>wide</em> format (with the <code>tidyr</code> package)</li>
+</ul></li>
+</ul>
+</section><section id="example-grouping-and-aggregation" class="slide level2">
+<h2>Example: Grouping and aggregation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+titanic <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(pclass, sex) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">survived =</span> <span class="kw">mean</span>(survived), <span class="dt">meanAge =</span> <span class="kw">mean</span>(age, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<pre><code># A tibble: 6 x 4
+# Groups:   pclass [?]
+  pclass sex    survived meanAge
+   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1      1 female    0.965    37.0
+2      1 male      0.341    41.0
+3      2 female    0.887    27.5
+4      2 male      0.146    30.8
+5      3 female    0.491    22.2
+6      3 male      0.152    26.0</code></pre>
+</section><section id="reference" class="slide level2">
+<h2>Reference</h2>
+<ul>
+<li><a href="http://dplyr.tidyverse.org/">reference</a></li>
+</ul>
+</section></section>
+<section><section id="lm" class="titleslide slide level1"><h1>Linear regression models</h1></section><section id="introduction-3" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>Linear regression is used in many areas</li>
+<li>Model the linear relationship between an outcome <span class="math inline">\(y\)</span> and <span class="math inline">\(k\)</span> independent variables <span class="math inline">\(x_j, j = 1, \dots, k\)</span>.</li>
+<li><span class="math inline">\(y_i = \beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik} + \epsilon_i\)</span></li>
+<li><span class="math inline">\(\epsilon \overset{iid}{\sim} N(0, \sigma^2)\)</span></li>
+</ul>
+</section><section id="simple-linear-regression-in-r" class="slide level2">
+<h2>Simple linear regression in R</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(survived <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> titanic)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>
+Call:
+lm(formula = survived ~ sex, data = titanic)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.7275 -0.1910 -0.1910  0.2725  0.8090 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.72747    0.01912   38.05   &lt;2e-16 ***
+sexmale     -0.53648    0.02382  -22.52   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.4127 on 1307 degrees of freedom
+Multiple R-squared:  0.2795,    Adjusted R-squared:  0.279 
+F-statistic: 507.1 on 1 and 1307 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section><section id="categorical-variables" class="slide level2">
+<h2>Categorical variables</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>pclass &lt;-<span class="st"> </span><span class="kw">as.factor</span>(titanic<span class="op">$</span>pclass)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(survived <span class="op">~</span><span class="st"> </span>pclass, <span class="dt">data =</span> titanic)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>
+Call:
+lm(formula = survived ~ pclass, data = titanic)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.6192 -0.2553 -0.2553  0.3808  0.7447 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.61920    0.02571  24.084  &lt; 2e-16 ***
+pclass2     -0.18959    0.03784  -5.011 6.17e-07 ***
+pclass3     -0.36391    0.03102 -11.732  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.4621 on 1306 degrees of freedom
+Multiple R-squared:  0.09768,   Adjusted R-squared:  0.0963 
+F-statistic: 70.69 on 2 and 1306 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section><section id="several-variables" class="slide level2">
+<h2>Several variables</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>embarked &lt;-<span class="st"> </span><span class="kw">as.factor</span>(titanic<span class="op">$</span>embarked)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(survived <span class="op">~</span><span class="st"> </span>pclass <span class="op">+</span><span class="st"> </span>embarked, <span class="dt">data =</span> titanic)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>
+Call:
+lm(formula = survived ~ pclass + embarked, data = titanic)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.6963 -0.3590 -0.2152  0.4475  0.7848 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.00000    0.32405   3.086 0.002072 ** 
+pclass2     -0.14055    0.03923  -3.583 0.000352 ***
+pclass3     -0.33732    0.03283 -10.276  &lt; 2e-16 ***
+embarkedC   -0.30369    0.32559  -0.933 0.351138    
+embarkedQ   -0.32438    0.32819  -0.988 0.323141    
+embarkedS   -0.44750    0.32539  -1.375 0.169283    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.4583 on 1303 degrees of freedom
+Multiple R-squared:  0.1145,    Adjusted R-squared:  0.1111 
+F-statistic: 33.68 on 5 and 1303 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section><section id="predictions" class="slide level2">
+<h2>Predictions</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict.lm</span>(model)
+survived_pred &lt;-<span class="st"> </span>pred <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>
+<span class="kw">table</span>(titanic<span class="op">$</span>survived, survived_pred)</code></pre></div>
+<pre><code>   survived_pred
+    FALSE TRUE
+  0   669  140
+  1   282  218</code></pre>
+</section><section id="out-of-sample-predictions" class="slide level2">
+<h2>Out of sample predictions</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(survived <span class="op">~</span><span class="st"> </span>pclass <span class="op">+</span><span class="st"> </span>sex, <span class="dt">data =</span> titanic)
+new &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pclass =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>), <span class="dt">sex =</span> <span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;male&quot;</span>))
+<span class="kw">predict.lm</span>(model, <span class="dt">newdata =</span> new, <span class="dt">interval =</span> <span class="st">&quot;prediction&quot;</span>, <span class="dt">level =</span> <span class="fl">0.90</span>)</code></pre></div>
+<pre><code>        fit        lwr      upr
+1 0.3941135 -0.2571518 1.045379
+2 0.2364034 -0.4149712 0.887778</code></pre>
+</section></section>
+    </div>
+  </div>
+
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: false,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

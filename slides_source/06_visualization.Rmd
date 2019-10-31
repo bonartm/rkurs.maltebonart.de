@@ -1,0 +1,246 @@
+---
+title: "Introduction to R: Visualizations with `ggplot2`"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA, fig.height = 3)
+```
+
+# Basics
+
+## Plotting systems in `R`
+- `basegraphs`
+- `grid` und `lattice`
+- **`ggplot2`**
+
+## Background
+- system for declaratively creating graphics, based on the "*grammar of graphics*"
+- special syntax: components are added using the `+` operator
+- relevant data to plot should be collected in a `data.frame`
+- produces high quality plots and takes care of many details
+
+## Workflow
+
+- initialize a plot with the `ggplot()` function
+- supply a dataset 
+- map *aesthetics* to variables: x, y, color, groups
+- add layers/`geom`: points, lines, histogram
+- add scales, faceting specification, coordinate systems, themes
+- save the plot
+
+## Installation of the ggplot2 package
+```{r, echo = TRUE, eval = FALSE}
+install.packages("ggplot2")
+```
+
+# Step by step guide
+
+## The data
+use the build in dataset `failthful` 
+```{r}
+?faithful
+head(faithful)
+```
+
+## Initialize the plot
+any variables that are part of the source dataframe have to be provided inside the `aes()` function
+
+```{r}
+library(ggplot2)
+ggplot(faithful, aes(x = waiting, y = eruptions))
+```
+
+---
+
+```{r, echo = FALSE}
+library(ggplot2)
+ggplot(faithful, aes(x = waiting, y = eruptions))
+```
+
+
+## Add some points
+additional layers have to be "added" with the `+` operator
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point()
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point()
+```
+
+## Add a linear trend line
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point() + 
+  geom_smooth(method='lm')
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point() + 
+  geom_smooth(method='lm')
+```
+
+
+## Change the color and size
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black")
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black")
+```
+
+## Add some labels
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       )
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       )
+```
+
+## Change the theme
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       ) + 
+  theme_minimal()
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       ) + 
+  theme_minimal()
+```
+
+## Simple Linear Regression
+
+```{r}
+m <- lm(eruptions ~ waiting, data = faithful)
+m <- summary(m)
+m
+rSquared <- round(m$r.squared, 2)
+```
+
+## Add R^2 to the plot
+```{r}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       ) + 
+ geom_label(x = 90, y = 1.5, size = 4,
+            label = paste("Bestimmtheitsmaß:", rSquared))
+
+```
+
+---
+
+```{r, echo = FALSE}
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+ geom_point(col ="steelblue", size = 0.9) + 
+  geom_smooth(method = 'lm', color = "black") + 
+  labs(title = "Old Faithful Geyser Data", 
+       subtitle = "Waiting time between eruptions and the duration of the eruption", 
+       x = "waiting time in mins", y = "eruption time in mins"
+       ) + 
+ geom_label(x = 90, y = 1.5, size = 4,
+            label = paste("Bestimmtheitsmaß:", rSquared))
+```
+
+# Basic examples
+
+## Read in the data
+
+```{r}
+titanic <- read.csv("./www/titanic.csv", stringsAsFactors = FALSE)
+soccer <- read.csv2("./www/football.csv", stringsAsFactors = FALSE)
+```
+
+## Histogram with subplots
+
+```{r, eval = TRUE, echo = TRUE}
+ggplot(titanic, aes(x = age)) + 
+  geom_histogram(binwidth = 5, na.rm = TRUE) +
+  facet_grid(~ sex)
+```
+
+## Bar chart by groups
+```{r, eval = TRUE, echo = TRUE}
+ggplot(titanic, aes(x = pclass, y = age, fill = sex)) + 
+  geom_bar(stat = "summary", fun.y = "mean", position = "dodge")
+```
+
+## Boxplot by groups
+```{r}
+titanic$pclass <- as.character(titanic$pclass)
+ggplot(titanic, aes(y = age, x = pclass)) + 
+  geom_boxplot()
+```
+
+## Visualize contingency tables
+```{r}
+ggplot(titanic, aes(y = sex, x = pclass)) + 
+  geom_count()
+```
+
+## Count entries by year
+```{r}
+library(lubridate)
+soccer$date <- as_date(soccer$date)
+soccer$year <- year(soccer$date)
+ggplot(soccer, aes(x = year)) + 
+  geom_line(stat = "count")
+```
+
+# References
+
+## Links
+
+- [ggplot2 refernce](http://ggplot2.tidyverse.org/reference/)
+- [ggplot2 cheat sheet](https://www.rstudio.org/links/data_visualization_cheat_sheet)
+
+
+

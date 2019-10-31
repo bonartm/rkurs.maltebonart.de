@@ -1,0 +1,307 @@
+---
+title: "Introduction to R: Extraction and updating of data-strucures"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+# http://directpoll.com/c?XDVhEtVHRZBEc4Ln7AxJqIT3LugvOjDt
+```
+
+
+## Overview of important data strucutures
+```{r, echo = F, results = 'asis'}
+tab <- data.frame(Homogenous = c("vector: c()", "matrix: matrix()"), Heterogenous = c("list: list()", "data.frame: data.frame()"))
+rownames(tab) <- c("One dimension", "Two dimensions")
+knitr::kable(tab, format = "html")
+```
+
+# Recap: vectors
+## Basics
+- data-types 
+    - `numeric`
+    - `character`
+    - `logical`
+- missing values: `NA`
+- names: `names()`
+- length: `length()`
+- many functions and operators can be applied to single values *and* vectors
+
+## Creation `c()`
+```{r}
+x <- c(A = 4, B = 12, C = 34)
+x
+names(x)
+length(x)
+is.numeric(x)
+```
+
+## Test
+What's the result of the following expressions?
+```{r, eval = F}
+x <- c(A = 1, B = 5, C = 2)
+
+length(x)             # 1
+
+is.numeric(names(x))  # 2
+
+length(x == 1)        # 3
+
+sum(x == 1)           # 4
+
+is.logical(x != 2)    # 5
+```
+---
+```{r}
+x <- c(A = 1, B = 5, C = 2)
+
+length(x)             # 1
+is.numeric(names(x))  # 2
+```
+---
+```{r}
+x <- c(A = 1, B = 5, C = 2)
+
+length(x == 1)        # 3
+sum(x == 1)           # 4
+is.logical(x != 2)    # 5
+```
+
+
+# Extracion and updating
+
+## Extraction with `x[y]`
+4 possible methods to extract values from a vector `x` using another vector `y`:
+
+  - `y` is a `numeric` vector with positive indices from `1` to `length(x)`
+  - `y` is a `logical` vector of size `length(x)` 
+  - `y` is a `numeric` vector with negative (exclusive) indices from `-1` to `-length(x)`
+  - (`y` is a `character` vector of names corresponding to `names(x)`)
+  
+## Example
+```{r}
+x <- c(A = 1, B = 4, C = 6, D = 2)
+x
+```
+
+---
+
+- `y` is a `numeric` vector with positive indices from `1` to `length(x)`
+```{r}
+x[c(1, 2)]
+x[1:length(x)]
+x[c(1, 1, 1)]
+```
+
+---
+
+- `y` is a `numeric` vector with negative (exclusive) indices from `-1` to `-length(x)`
+```{r}
+x[c(-1, -2)]
+x[-1]
+x[-length(x)]
+```
+
+---
+
+- `y` is a `logical` vector of size `length(x)` 
+```{r}
+x[c(TRUE, FALSE, FALSE, TRUE)]
+x[x > 3]
+x[x == 1 | x == 4]
+```
+
+---
+
+- `y` is a `character` vector of names corresponding to `names(x)`
+```{r}
+x[c("B", "C")]
+x["D"]
+```
+
+
+## Update values with `x[y] <- z`
+Extracted values can be directly updated (in-place).
+```{r}
+x <- c(1, 4, 2, NA, 9, NA, NA, -99)
+x
+x[x == -99] <- NA
+x
+x[is.na(x)] <- -1
+x
+```
+
+## Replace vectors with `x <- x[y]`
+Extracted values can be assigned to a new variable or override the original variable 
+```{r}
+x <- c(1, 4, 2, NA, 9, NA, NA, NA)
+x
+x <- x[!is.na(x)]
+x
+```
+
+
+# Extraction and updating for data frames
+
+## Introduction
+- data frames are *two-dimensional*
+- each row represents a case, an observation, a person, ...
+- each column represents an outcome, a variable, ...
+- data frames have column names `names()`
+
+## Extraction: DF[x, y], DF[x, ], DF[, y]
+
+- `x` chooses the rows, `y` chooses the columns: `DF[x, y]`
+- To select only rows/ columns
+    - `DF[x, ]`: select only rows
+    - `DF[, y]`: select only columns
+- Extraction methods are analogous to vectors
+- Special case: `DF$y` to select only the column with the name `y`
+
+## Extraction methods for rows and columns
+
+- a vector of positive indices: `DF[c(1, 2), ]`
+- a vector of negative indices: `DF[-1, -2]`
+- a logial vector: `DF[x > 2, ]`
+- a vector with columnnames: `DF[, "pclass"]`
+
+## Example I
+
+```{r}
+titanic <- read.csv("./www/titanic.csv", stringsAsFactors = FALSE)
+
+titanic[c(1, 2, 3), "age"]
+titanic[c(1, 2, 3), 1:3]
+```
+
+---
+```{r}
+titanic[1, ]
+titanic$name[1:3]
+```
+
+
+## Example II
+
+
+```{r}
+titanic[titanic$age > 10 & titanic$age < 20 & !is.na(titanic$age), ]
+```
+
+
+
+---
+
+```{r}
+titanic[titanic$sex == "male", ]
+```
+
+---
+
+```{r}
+rowFilter <- titanic$age > 75 & !is.na(titanic$age)
+colFilter <- c("name", "survived", "pclass")
+titanic[rowFilter, colFilter]
+```
+
+## Update values `DF$x[y] <- z`
+- values can be updated in place
+- usually the `$` - sign is used to select the column first 
+
+## Example
+```{r}
+titanic$sex[1:10] # convert the column to 0, 1 values
+titanic$sex[titanic$sex == "male"] <- 0
+titanic$sex[titanic$sex == "female"] <- 1
+titanic$sex[1:10]
+titanic$sex <- as.numeric(titanic$sex)
+titanic$sex[1:10]
+```
+
+---
+
+```{r}
+sum(is.na(titanic$age)) # age contains missing values
+meanAge <- mean(titanic$age, na.rm = TRUE) # caculate the average age 
+meanAge 
+titanic$age[is.na(titanic$age)] <- meanAge # impute missing values with the average age
+sum(is.na(titanic$age))
+```
+
+
+## Delete Rows or Columns
+as with vectors, data frames can be replaced by a subset 
+```{r}
+# only female
+titanic <- titanic[titanic$sex == 1, ]
+# delete the third column
+titanic <- titanic[, -3]
+# another possibility
+titanic[,3] <- NULL
+
+head(titanic)
+```
+
+
+## The `which` function
+```{r, eval = TRUE, echo = FALSE}
+titanic <- read.csv("./www/titanic.csv", stringsAsFactors = FALSE)
+```
+
+- Returns the indices at which a `logical` vector is `TRUE
+```{r}
+x <- c(FALSE, TRUE, TRUE, FALSE)
+which(x)
+which(titanic$survived == 1 & titanic$pclass == 1)
+length(which(x))
+sum(x)
+```
+---
+```{r}
+x <- c(FALSE, TRUE, TRUE, FALSE)
+length(which(x))
+sum(x)
+```
+
+
+# Ordering by variables and selection of maxima and minima
+
+## Ordering of a dataset
+```{r}
+titanic <- titanic[order(titanic$age), ]
+head(titanic)
+```
+
+## Select the top/ bottom 5
+```{r}
+youngest <- order(titanic$age)[1:5]
+oldest <- order(titanic$age, decreasing = TRUE)[1:5]
+titanic[youngest, -3]
+titanic[oldest, -3]
+```
+---
+```{r}
+oldest <- order(titanic$age, decreasing = TRUE)[1:5]
+titanic[oldest, -3]
+```
+
+## Select the maxima or minima
+```{r}
+titanic[which.min(titanic$age), ]
+titanic[which.max(titanic$age), ]
+```
+
+---
+```{r}
+titanic[which.max(titanic$age), ]
+
+# gives the same result but harder to read
+titanic[which(titanic$age == max(titanic$age)), ]
+```
+
+
+
+
+
+

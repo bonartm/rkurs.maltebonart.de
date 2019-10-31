@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Malte Bonart" />
+  <title>Introduction to R: Data import and data frames</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="../slides/slides_libs/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="style.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Introduction to R: Data import and data frames</h1>
+    <h2 class="author">Malte Bonart</h2>
+</section>
+
+<section><section id="data-import" class="titleslide slide level1"><h1>Data import</h1></section><section id="table-data" class="slide level2">
+<h2>Table data</h2>
+<ul>
+<li>most of the available data is structured in a <em>table</em> representation
+<ul>
+<li>rows: observations, cases, subjects</li>
+<li>columns: variables, features</li>
+</ul></li>
+<li>table data can be stored
+<ul>
+<li>in plain text: <code>.txt</code>, <code>.csv</code>, <code>.tsv</code>, …</li>
+<li>in a binary format: Excel, Stata, SPSS, …</li>
+<li>in a relational database: <code>SQL</code>, …</li>
+</ul></li>
+</ul>
+</section><section id="text-table-data" class="slide level2">
+<h2>Text table data</h2>
+<ul>
+<li>central function is <code>read.table()</code> to read table data from the hard drive</li>
+<li>questions to answer before importing table data:
+<ul>
+<li>has the data a header line?</li>
+<li>how are values separated (e.g. <code>&quot;,&quot;</code> or <code>&quot;;&quot;</code>)</li>
+<li>what’s the encoding (e.g. <code>UTF-8</code> or <code>latin-1</code>)</li>
+</ul></li>
+<li>use the argument <code>stringsAsFactors = FALSE</code></li>
+</ul>
+</section><section id="binary-table-data" class="slide level2">
+<h2>Binary table data</h2>
+<ul>
+<li>there exists various packages for importing binary table data
+<ul>
+<li><code>haven</code> package for Stata, SAS and SPSS files</li>
+<li><code>readxl</code> package for Excel files</li>
+</ul></li>
+<li>usually one can always export the data to text format and then import it using <code>read.table</code></li>
+</ul>
+</section><section id="other-data-formats" class="slide level2">
+<h2>Other data formats</h2>
+<ul>
+<li>Web APIs often represent data in <code>json</code> or <code>xml</code> (text-)format
+<ul>
+<li>packages <code>XML</code> and <code>jsonlite</code></li>
+</ul></li>
+<li>R uses the binary <code>.RData</code> or <code>.rds</code> format to save objects persistently</li>
+<li>Spatial data is often stored in a <em>GIS</em> file format (shapefile)
+<ul>
+<li>packages <code>maptools</code></li>
+</ul></li>
+</ul>
+</section></section>
+<section><section id="data-frames" class="titleslide slide level1"><h1>Data frames</h1></section><section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>when importing table data, the natural R representation is a <code>data.frame</code></li>
+<li>two-dimensional data structure with rows and columns</li>
+<li>each column is a <code>vector</code> of some data-type (e.g. <code>numeric</code>, <code>logical</code>, <code>character</code>, …)</li>
+</ul>
+</section><section id="example-creation" class="slide level2">
+<h2>Example: creation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myDF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">10</span>), letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])
+myDF</code></pre></div>
+<pre><code>   X1.10 rep.TRUE..10. letters.1.10.
+1      1          TRUE             a
+2      2          TRUE             b
+3      3          TRUE             c
+4      4          TRUE             d
+5      5          TRUE             e
+6      6          TRUE             f
+7      7          TRUE             g
+8      8          TRUE             h
+9      9          TRUE             i
+10    10          TRUE             j</code></pre>
+</section><section id="example-data-import" class="slide level2">
+<h2>Example: data import</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+titanic &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;./www/titanic.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, 
+                      <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">head</span>(titanic)</code></pre></div>
+<pre><code>  X.1 X pclass survived                                            name
+1   1 1      1        1                   Allen, Miss. Elisabeth Walton
+2   2 2      1        1                  Allison, Master. Hudson Trevor
+3   3 3      1        0                    Allison, Miss. Helen Loraine
+4   4 4      1        0            Allison, Mr. Hudson Joshua Creighton
+5   5 5      1        0 Allison, Mrs. Hudson J C (Bessie Waldo Daniels)
+6   6 6      1        1                             Anderson, Mr. Harry
+     sex     age embarked
+1 female 29.0000        S
+2   male  0.9167        S
+3 female  2.0000        S
+4   male 30.0000        S
+5 female 25.0000        S
+6   male 48.0000        S</code></pre>
+</section><section id="example-summary-function" class="slide level2">
+<h2>Example: <code>summary</code> function</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(titanic)</code></pre></div>
+<pre><code>      X.1             X            pclass         survived    
+ Min.   :   1   Min.   :   1   Min.   :1.000   Min.   :0.000  
+ 1st Qu.: 328   1st Qu.: 328   1st Qu.:2.000   1st Qu.:0.000  
+ Median : 655   Median : 655   Median :3.000   Median :0.000  
+ Mean   : 655   Mean   : 655   Mean   :2.295   Mean   :0.382  
+ 3rd Qu.: 982   3rd Qu.: 982   3rd Qu.:3.000   3rd Qu.:1.000  
+ Max.   :1309   Max.   :1309   Max.   :3.000   Max.   :1.000  
+                                                              
+     name               sex                 age         
+ Length:1309        Length:1309        Min.   : 0.1667  
+ Class :character   Class :character   1st Qu.:21.0000  
+ Mode  :character   Mode  :character   Median :28.0000  
+                                       Mean   :29.8811  
+                                       3rd Qu.:39.0000  
+                                       Max.   :80.0000  
+                                       NA&#39;s   :263      
+   embarked        
+ Length:1309       
+ Class :character  
+ Mode  :character  
+                   
+                   
+                   
+                   </code></pre>
+</section><section id="length" class="slide level2">
+<h2>Length</h2>
+<ul>
+<li>use the functions <code>nrows()</code>, <code>ncols()</code></li>
+<li><code>length()</code> also gives the number of columns</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(titanic)</code></pre></div>
+<pre><code>[1] 1309</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(titanic)</code></pre></div>
+<pre><code>[1] 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(titanic)</code></pre></div>
+<pre><code>[1] 8</code></pre>
+</section><section id="names" class="slide level2">
+<h2>Names</h2>
+<ul>
+<li>function <code>colnames()</code> or <code>names()</code> for the column names</li>
+<li>function <code>rownames()</code> for the row names (used less frequently)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(titanic)</code></pre></div>
+<pre><code>[1] &quot;X.1&quot;      &quot;X&quot;        &quot;pclass&quot;   &quot;survived&quot; &quot;name&quot;     &quot;sex&quot;     
+[7] &quot;age&quot;      &quot;embarked&quot;</code></pre>
+</section></section>
+<section><section id="extraction-and-adding-of-variables" class="titleslide slide level1"><h1>Extraction and adding of variables</h1></section><section id="column-extraction" class="slide level2">
+<h2>Column extraction</h2>
+<ul>
+<li>each column of a <code>data.frame</code> is a vector of some data type</li>
+<li>columns can be extracted using the <code>$</code> sign</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">class &lt;-<span class="st"> </span>titanic<span class="op">$</span>pclass
+class</code></pre></div>
+<pre><code>   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+  [35] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+  [69] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [103] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [137] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [171] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [205] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [239] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [273] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [307] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [341] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [375] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [409] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [443] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [477] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [511] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [545] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [579] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3
+ [613] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [647] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [681] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [715] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [749] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [783] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [817] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [851] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [885] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [919] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [953] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [987] 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [ reached getOption(&quot;max.print&quot;) -- omitted 309 entries ]</code></pre>
+</section><section id="column-creation" class="slide level2">
+<h2>Column creation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>isOld &lt;-<span class="st"> </span>titanic<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>
+titanic<span class="op">$</span>isOld</code></pre></div>
+<pre><code>   [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
+  [12] FALSE FALSE FALSE  TRUE    NA FALSE FALSE FALSE FALSE FALSE FALSE
+  [23] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+  [34] FALSE FALSE FALSE FALSE    NA FALSE FALSE    NA FALSE FALSE FALSE
+  [45] FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+  [56] FALSE FALSE FALSE FALSE    NA FALSE  TRUE FALSE FALSE FALSE FALSE
+  [67] FALSE FALSE FALSE    NA    NA FALSE FALSE FALSE    NA FALSE FALSE
+  [78] FALSE  TRUE FALSE    NA  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE
+  [89] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [100] FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA    NA FALSE
+ [111] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE    NA FALSE FALSE
+ [122]    NA FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE
+ [133] FALSE FALSE    NA  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [144] FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE    NA FALSE
+ [155] FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [166] FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [177]    NA FALSE FALSE    NA FALSE FALSE FALSE FALSE    NA FALSE FALSE
+ [188] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE
+ [199] FALSE FALSE FALSE FALSE FALSE FALSE    NA  TRUE FALSE FALSE FALSE
+ [210] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE    NA
+ [221] FALSE  TRUE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [232] FALSE FALSE FALSE FALSE    NA FALSE    NA FALSE FALSE FALSE    NA
+ [243] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+ [254] FALSE    NA FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [265] FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE
+ [276] FALSE FALSE    NA FALSE  TRUE FALSE FALSE FALSE    NA  TRUE  TRUE
+ [287]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE
+ [298]    NA FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+ [309] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA
+ [320] FALSE    NA  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [331] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [342] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [353] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [364]    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [375] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE    NA
+ [386] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [397] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [408] FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [419] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [430] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [441] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [452] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+ [463] FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE
+ [474]    NA FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE    NA
+ [485] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE    NA FALSE FALSE FALSE
+ [496]    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [507]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+ [518] FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE
+ [529]    NA FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [540] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [551] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [562] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [573] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE
+ [584] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [595]  TRUE    NA FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [606] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [617] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [628] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [639] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [650] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [661] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [672] FALSE    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA
+ [683]    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [694] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [705] FALSE    NA    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [716] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [727] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [738] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [749] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA FALSE
+ [760] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA FALSE
+ [771] FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE
+ [782] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE
+ [793] FALSE FALSE FALSE    NA FALSE FALSE    NA FALSE    NA    NA    NA
+ [804] FALSE    NA    NA FALSE FALSE    NA FALSE FALSE FALSE    NA    NA
+ [815] FALSE    NA    NA FALSE FALSE    NA FALSE FALSE FALSE FALSE FALSE
+ [826] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA
+ [837] FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA FALSE FALSE FALSE
+ [848] FALSE FALSE FALSE FALSE FALSE    NA FALSE    NA FALSE    NA FALSE
+ [859]    NA FALSE FALSE FALSE FALSE FALSE FALSE    NA FALSE FALSE FALSE
+ [870] FALSE FALSE    NA    NA FALSE    NA FALSE    NA FALSE FALSE    NA
+ [881] FALSE FALSE    NA FALSE FALSE FALSE    NA    NA FALSE FALSE FALSE
+ [892] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE    NA    NA
+ [903]    NA    NA FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+ [914] FALSE FALSE FALSE FALSE FALSE    NA FALSE    NA    NA    NA    NA
+ [925] FALSE FALSE    NA    NA    NA    NA    NA    NA FALSE FALSE FALSE
+ [936] FALSE FALSE FALSE FALSE FALSE    NA FALSE    NA FALSE    NA    NA
+ [947]    NA FALSE    NA FALSE FALSE FALSE FALSE FALSE    NA    NA    NA
+ [958]    NA    NA FALSE FALSE    NA    NA FALSE FALSE FALSE FALSE FALSE
+ [969] FALSE FALSE FALSE    NA FALSE    NA FALSE FALSE    NA FALSE FALSE
+ [980] FALSE FALSE FALSE    NA    NA    NA FALSE FALSE    NA    NA    NA
+ [991] FALSE    NA FALSE    NA    NA FALSE FALSE    NA    NA    NA
+ [ reached getOption(&quot;max.print&quot;) -- omitted 309 entries ]</code></pre>
+</section><section id="overriding-of-existing-columns" class="slide level2">
+<h2>Overriding of existing columns</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>age &lt;-<span class="st"> </span><span class="dv">12</span>
+<span class="kw">head</span>(titanic<span class="op">$</span>age)</code></pre></div>
+<pre><code>[1] 12 12 12 12 12 12</code></pre>
+</section><section id="deletion-of-columns" class="slide level2">
+<h2>Deletion of columns</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="kw">head</span>(titanic)</code></pre></div>
+<pre><code>  X.1 X pclass survived                                            name
+1   1 1      1        1                   Allen, Miss. Elisabeth Walton
+2   2 2      1        1                  Allison, Master. Hudson Trevor
+3   3 3      1        0                    Allison, Miss. Helen Loraine
+4   4 4      1        0            Allison, Mr. Hudson Joshua Creighton
+5   5 5      1        0 Allison, Mrs. Hudson J C (Bessie Waldo Daniels)
+6   6 6      1        1                             Anderson, Mr. Harry
+     sex embarked isOld
+1 female        S FALSE
+2   male        S FALSE
+3 female        S FALSE
+4   male        S FALSE
+5 female        S FALSE
+6   male        S FALSE</code></pre>
+</section></section>
+<section><section id="frequency-and-contingency-tables" class="titleslide slide level1"><h1>Frequency and contingency tables</h1></section><section id="introduction-1" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li>used to represent the distribution of one or two <em>categorical</em> variables</li>
+<li>total frequencies</li>
+<li>relative frequencies (row, column, or absolute percentage)</li>
+</ul>
+</section><section id="example-total-frequencies" class="slide level2">
+<h2>Example total frequencies</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(titanic<span class="op">$</span>pclass)</code></pre></div>
+<pre><code>
+  1   2   3 
+323 277 709 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(titanic<span class="op">$</span>sex, titanic<span class="op">$</span>pclass)</code></pre></div>
+<pre><code>        
+           1   2   3
+  female 144 106 216
+  male   179 171 493</code></pre>
+</section><section id="example-relative-frequencies-row-percentage" class="slide level2">
+<h2>Example relative frequencies, row percentage</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab &lt;-<span class="st"> </span><span class="kw">table</span>(titanic<span class="op">$</span>sex, titanic<span class="op">$</span>pclass)
+tab</code></pre></div>
+<pre><code>        
+           1   2   3
+  female 144 106 216
+  male   179 171 493</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(tab, <span class="dt">margin =</span> <span class="dv">1</span>)</code></pre></div>
+<pre><code>        
+                 1         2         3
+  female 0.3090129 0.2274678 0.4635193
+  male   0.2123369 0.2028470 0.5848161</code></pre>
+</section><section id="example-relative-frequencies-column-percentage" class="slide level2">
+<h2>Example relative frequencies, column percentage</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab &lt;-<span class="st"> </span><span class="kw">table</span>(titanic<span class="op">$</span>sex, titanic<span class="op">$</span>pclass)
+tab</code></pre></div>
+<pre><code>        
+           1   2   3
+  female 144 106 216
+  male   179 171 493</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(tab, <span class="dt">margin =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>        
+                 1         2         3
+  female 0.4458204 0.3826715 0.3046544
+  male   0.5541796 0.6173285 0.6953456</code></pre>
+</section><section id="example-relative-frequencies-absolute-percentage" class="slide level2">
+<h2>Example relative frequencies, absolute percentage</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab &lt;-<span class="st"> </span><span class="kw">table</span>(titanic<span class="op">$</span>sex, titanic<span class="op">$</span>pclass)
+tab</code></pre></div>
+<pre><code>        
+           1   2   3
+  female 144 106 216
+  male   179 171 493</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(tab, <span class="dt">margin =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>        
+                  1          2          3
+  female 0.11000764 0.08097785 0.16501146
+  male   0.13674561 0.13063407 0.37662338</code></pre>
+</section></section>
+    </div>
+  </div>
+
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="../slides/slides_libs/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: false,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

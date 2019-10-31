@@ -1,0 +1,50 @@
+---
+title: "Survey"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA, echo = FALSE, eval = TRUE, fig.width=12, fig.height=8)
+```
+
+```{r}
+library(wordcloud)
+surv <- read.csv("./private/results-survey.csv", stringsAsFactors = FALSE)
+
+clean <- function(text){
+  text <- tolower(text)
+  text <- gsub("\n|,|\\/|\\.|\\(|\\)", " ",text)
+  text <- unlist(strsplit(text, " "))
+  text <- text[text != ""]
+  text <- text[!text %in% c("ich", "und", "mit", "der", "die", "das", "im", "in", "dem", "zu", "für", "dass", "eine", "semester", "um")]
+  text
+}
+```
+
+## Studies
+
+```{r, fig.width=12, fig.height=8}
+study <- table(clean(surv$study))
+wordcloud(names(study), as.vector(study), scale = c(4, 2), min.freq = 1, rot.per = 0, fixed.asp = TRUE)
+```
+
+---
+
+```{r}
+semester <- table(clean(surv$semester))
+wordcloud(names(semester), as.vector(semester), scale = c(4, 1), min.freq = 1, rot.per = 0, fixed.asp = TRUE)
+```
+
+## Statistics
+
+```{r}
+m <- colMeans(surv[,7:10], na.rm = TRUE)
+barplot(m, names.arg = gsub("stat.", "", names(m), fixed = TRUE), cex.names = 2, cex.axis = 2)
+```
+
+## Programming
+
+```{r}
+m <- colMeans(surv[,11:18], na.rm = TRUE)
+barplot(m, names.arg = gsub("software.", "", names(m), fixed = TRUE), cex.names = 1.5, cex.axis = 2)
+```

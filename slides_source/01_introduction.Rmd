@@ -1,0 +1,133 @@
+---
+title: "Introduction to R: Basics"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+# http://directpoll.com/c?XDVhEtVHRZBEc4Ln7AxJqIT3LugvOjDt
+```
+
+# R and RStudio
+
+---
+
+<iframe width="100%" height="600px" src="https://www.youtube.com/embed/ZCQHm63xc4s?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## About R
+
+- interpreter and programming language
+- manipulation, calculation, simulation, modelling, visualization of data
+- free and open source
+- thousands of packages to enhance the base functionality
+- active online community
+- good documentation
+- widely used in science and business
+- one of the fastest growing languages worldwide
+
+## Features
+
+- read in data from various sources
+    - text, images, geo, online-api, databases, excel, stata, spss, ...
+- processing, cleaning and aggregation of data
+- statistical analysis, modelling and prediction
+- visualization and presentation of results
+
+## RStudio
+
+- integrated developement environment (IDE)
+- integrated console, syntax-highlighting editor, project management, history, tools for plotting
+- integrated documentation
+- each data project can be run in its own *environment* with its own *working directory*
+
+# Getting help
+
+## How to learn R
+
+> The best way to learn a tool is to use it. When you can't figure out how to do something don't give up. Continue to play with the program and search google for solutions. Any frustration you encounter will be worth it when you can bend your tool to your will! 
+
+*Cole Nussbaumer Knaflic: "Storytelling with Data: A Data Visualization Guide for Business Professionals"*. 
+
+## Hot to get help
+- work together, ask questions and help the people arround you
+- use google and [stackoverflow](https://stackoverflow.com/questions/tagged/r)
+- read [books](http://www.springer.com/de/book/9780387790534)
+- use the integrated help sites
+
+## Calling the R documentation
+```{r, eval = F}
+?mean
+help(":")
+?'?'
+help.search("csv")
+example("mean")
+??plotting
+example(plot)
+```
+
+# Some R language essentials
+
+## Expressions and objects
+
+- R takes user code (expressions), evaluates it [and prints the result]
+- Interpreted language
+- Expressions work on *objects*
+    - Objects can be of different type 
+    - Objects can be assigned to a variable `x <- 12`
+    
+## Functional programming in R
+
+> Everything that exists is an object. Everything that happens is a function call.
+— John Chambers
+
+## Functions and arguments: 
+
+`fnname(arg1 = val1, arg2 = val2, ...)`
+
+- Functions "do" something with *objects* 
+- Input - Processing - Output
+- A function is eventually called with arguments: `rnorm(n = 10)`
+    - What is the *actual* and the *formal* argument?
+    - R matches *actual* to *formal* arguments by position and/or name
+    - Functions can have default aruments `?mean`
+    
+## The global environment
+- The *global environment* contains all user defined objects (variables, functions, data) which were created during a session
+- Use the `ls()` to list objects from the global environment
+- Use the `rm()` to remove objects (e. g. to save memory if the object is very large)
+```{r}
+vals <- 1:10
+ls()
+rm("vals")
+ls()
+```
+
+## The working directory
+- Each project has a *root* folder `"./"` which is the default *working* directory
+- Use the function `getwd()` to see the current working directory
+- If you move the project's root folder to some other directory, the working directory is automatically set to this new directory
+```{r, eval = F}
+getwd()
+```
+
+## File paths
+- By using *relative* file paths one can easily share the project's folder without rewriting the file paths
+- `"./"` is the default working directory, e.g. the project's *root* folder
+- `"../"` moves one level up
+- `"~/"` is the home directory of the current user
+```{r, eval = F}
+list.files("./") # same level as getwd() (e.g. the root folder of the project)
+list.files("~/") # home directory
+list.files("../") # move one level up (e.g. the desktop here)
+```
+
+
+
+  
+
+
+
+
+

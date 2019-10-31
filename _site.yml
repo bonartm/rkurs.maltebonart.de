@@ -1,0 +1,55 @@
+name: Introduction to R
+exclude:
+- logs
+- deploy.R
+- slides_source
+- private
+navbar:
+  title: Introduction to R
+  type: default
+  left:
+  - text: Exercises
+    icon: fa-code
+    href: exercises.html
+  - text: Slides
+    icon: fa-file
+    menu:
+    - text: Basics
+      href: ./slides/01_introduction.html
+    - text: Vectors and Operators
+      href: ./slides/02_operators_vectors.html
+    - text: Data import and data frames
+      href: ./slides/03_data_frames.html
+    - text: Functions and control structures
+      href: ./slides/04_functions.html
+    - text: Extraction and updating
+      href: ./slides/05_extraction.html
+    - text: Visualizations
+      href: ./slides/06_visualization.html
+    - text: Further topics
+      href: ./slides/07_advanced.html
+  - text: Cheat Sheet
+    icon: fa-question-circle
+    href: cheatsheet.html
+  - text: Ressources
+    icon: fa-database
+    menu:
+    - text: Datasets
+      href: datasets.html
+    - text: Scripts
+      href: scripts.html
+  right:
+  - icon: fa-pencil
+    text: Etherpad
+    href: https://yourpart.eu/p/p1TYQBtmTT
+output:
+  html_document:
+    theme: readable
+    highlight: textmate
+    include:
+      after_body: footer.html
+    css: styles.css
+    lib_dir: site_libs
+    self_contained: false
+output_dir: docs
+

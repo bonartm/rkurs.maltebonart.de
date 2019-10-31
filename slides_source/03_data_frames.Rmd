@@ -1,0 +1,150 @@
+---
+title: "Introduction to R: Data import and data frames"
+author: "Malte Bonart"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+# http://directpoll.com/c?XDVhEtVHRZBEc4Ln7AxJqIT3LugvOjDt
+```
+
+# Data import
+
+## Table data
+
+- most of the available data is structured in a *table* representation
+    - rows: observations, cases, subjects
+    - columns: variables, features
+- table data can be stored 
+    - in plain text: `.txt`, `.csv`, `.tsv`, ...
+    - in a binary format: Excel, Stata, SPSS, ...
+    - in a relational database: `SQL`, ...
+
+## Text table data
+- central function is `read.table()` to read table data from the hard drive
+- questions to answer before importing table data:
+    - has the data a header line?
+    - how are values separated (e.g. `","` or `";"`)
+    - what's the encoding (e.g. `UTF-8` or `latin-1`)
+- use the argument `stringsAsFactors = FALSE` 
+
+## Binary table data
+- there exists various packages for importing binary table data
+    - `haven` package for Stata, SAS and SPSS files
+    - `readxl` package for Excel files
+- usually one can always export the data to text format and then import it using `read.table`
+
+## Other data formats
+
+- Web APIs often represent data in `json` or `xml` (text-)format
+    - packages `XML` and `jsonlite`
+- R uses the binary `.RData` or `.rds` format to save objects persistently
+- Spatial data is often stored in a *GIS* file format (shapefile)
+    - packages `maptools`
+    
+    
+# Data frames
+
+## Introduction
+- when importing table data, the natural R representation is a `data.frame`
+- two-dimensional data structure with rows and columns
+- each column is a `vector` of some data-type (e.g. `numeric`, `logical`, `character`, ...)
+
+## Example: creation
+```{r}
+myDF <- data.frame(1:10, rep(TRUE, 10), letters[1:10])
+myDF
+```
+
+## Example: data import
+```{r}
+titanic <- read.csv("./www/titanic.csv", stringsAsFactors = FALSE)
+titanic <- read.table("./www/titanic.csv", header = TRUE, 
+                      sep = ",", stringsAsFactors = FALSE)
+head(titanic)
+```
+
+## Example: `summary` function
+```{r}
+summary(titanic)
+```
+
+## Length
+- use the functions `nrows()`, `ncols()`
+- `length()` also gives the number of columns
+```{r}
+nrow(titanic)
+ncol(titanic)
+length(titanic)
+```
+
+## Names
+- function `colnames()` or `names()` for the column names
+- function `rownames()` for the row names (used less frequently)
+```{r}
+colnames(titanic)
+```
+
+# Extraction and adding of variables
+
+## Column extraction
+- each column of a `data.frame` is a vector of some data type
+- columns can be extracted using the `$` sign
+```{r}
+class <- titanic$pclass
+class
+```
+
+## Column creation
+```{r}
+titanic$isOld <- titanic$age > 60
+titanic$isOld
+```
+
+## Overriding of existing columns
+```{r}
+titanic$age <- 12
+head(titanic$age)
+```
+
+## Deletion of columns
+```{r}
+titanic$age <- NULL
+head(titanic)
+```
+
+
+# Frequency and contingency tables
+
+## Introduction
+- used to represent the distribution of one or two *categorical* variables
+- total frequencies
+- relative frequencies (row, column, or absolute percentage)
+
+## Example total frequencies
+```{r}
+table(titanic$pclass)
+table(titanic$sex, titanic$pclass)
+```
+
+## Example relative frequencies, row percentage
+```{r}
+tab <- table(titanic$sex, titanic$pclass)
+tab
+prop.table(tab, margin = 1)
+```
+
+## Example relative frequencies, column percentage
+```{r}
+tab <- table(titanic$sex, titanic$pclass)
+tab
+prop.table(tab, margin = 2)
+```
+
+## Example relative frequencies, absolute percentage
+```{r}
+tab <- table(titanic$sex, titanic$pclass)
+tab
+prop.table(tab, margin = NULL)
+```
